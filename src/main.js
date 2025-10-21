@@ -5,22 +5,18 @@ import './main.css'
 import { createHead } from '@vueuse/head'
 import { MotionPlugin } from '@vueuse/motion'
 
-
-
-
 // Criar o gerenciador de metadados (SEO)
 const head = createHead()
 
-// Criar e exportar a app com suporte a Static Site Generation (SSG)
+// ✅ Define explicitamente o base path
 export const createApp = ViteSSG(
   App,
   {
     routes,
-    // o vite-ssg já cria internamente o router com base nisso
+    base: import.meta.env.BASE_URL || '/Premio-Imobiliario-Nacional/',
   },
   (ctx) => {
-    // Aqui adicionamos plugins, libs globais, etc.
-      ctx.app.use(head)
-        ctx.app.use(MotionPlugin)
+    ctx.app.use(head)
+    ctx.app.use(MotionPlugin)
   }
 )

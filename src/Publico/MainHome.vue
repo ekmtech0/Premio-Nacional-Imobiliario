@@ -4,6 +4,11 @@ import NavBar from '@/componentes/NavBar.vue'
 import SobrePremio from '@/Publico/SobrePremio.vue'
 import categoriaPremio from '@/Publico/categoriaPremio.vue'
 import NomeadosPremio from './NomeadosPremio.vue'
+import VotacaoPublic from './VotacaoPublic.vue'
+import JuriSelecao from './JuriSelecao.vue'
+import ResultadosAtuais from './ResultadosAtuais.vue'
+import ParceirosPNI from './ParceirosPNI.vue'
+import FooterPNI from './FooterPNI.vue'
 
 useHead({
   title: 'Prémio Nacional Imobiliário 2025',
@@ -17,7 +22,7 @@ useHead({
 </script>
 <template>
      <NavBar/>
-<section class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden">
+<section class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden" id="inicio">
   <!-- Imagem de fundo -->
   <img
     src="/src/Img/Angola.jpeg"
@@ -68,4 +73,9 @@ useHead({
 
  <categoriaPremio/>
  <NomeadosPremio/>
+ <VotacaoPublic/>
+ <JuriSelecao/>
+ <ResultadosAtuais/>
+ <ParceirosPNI/>
+ <FooterPNI/>
 </template>

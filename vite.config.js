@@ -1,12 +1,14 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
+  // ⚠️ nome do repositório no GitHub
+  base: process.env.NODE_ENV === 'production'
+    ? '/Premio-Imobiliario-Nacional/'
+    : '/',
   plugins: [
     vue(),
     vueJsx(),
@@ -18,5 +20,3 @@ export default defineConfig({
     },
   },
 })
-
-
