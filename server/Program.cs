@@ -8,6 +8,8 @@ using server.UnitOfWork;
 using server.Endpoints;
 using server.Repositories.Interfaces;
 using server.Repositories;
+using server.Helpers.Interfaces;
+using server.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +27,11 @@ builder.Services.AddScoped<ICandidatoRepository, CandidatoRepository>();
 builder.Services.AddScoped<ICandidatoService, CandidatoService>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-
+builder.Services.AddScoped<IEleitorRepository, EleitorRepository>();
+builder.Services.AddScoped<IEleitorService, EleitorService>();
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<IGenerateConfirmationCode, GenerateConfirmationCode>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
@@ -46,5 +52,6 @@ app.UseGlobalExceptionHandler();
 app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();
 app.MapCategoriaEndpoints();
+app.MapEleitorEndpoints();
 
 app.Run();
