@@ -9,7 +9,7 @@ import JuriSelecao from './JuriSelecao.vue'
 import ResultadosAtuais from './ResultadosAtuais.vue'
 import ParceirosPNI from './ParceirosPNI.vue'
 import FooterPNI from './FooterPNI.vue'
-
+import ReCaptcha from './ReCaptcha.vue'
 
 useHead({
   title: 'Prémio Nacional Imobiliário 2025',
@@ -71,9 +71,9 @@ useHead({
 </section>
 
 <SobrePremio/>
-
+ 
  <categoriaPremio/>
- <NomeadosPremio/>
+  <NomeadosPremio/>
  <VotacaoPublic/>
  <JuriSelecao/>
  <ResultadosAtuais/>

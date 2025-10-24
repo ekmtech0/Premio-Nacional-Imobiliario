@@ -53,14 +53,14 @@ export const routes = [
     component: JuriSelecao,
   },
   {
-    path: '/ ResultadosAtuais',
-    name: ' ResultadosAtuais',
+    path: '/ResultadosAtuais',
+    name: 'ResultadosAtuais',
     component: ResultadosAtuais,
   },
 
     {
-    path: '/ ParceirosPNI',
-    name: ' ParceirosPNI',
+    path: '/ParceirosPNI',
+    name: 'ParceirosPNI',
     component: ParceirosPNI,
   },
   {
@@ -91,8 +91,8 @@ export const routes = [
   },
   {
     path: '/SideBar',
-    name: 'Sidebar',
-    componente: SideBar
+    name: 'SideBar',
+    component: SideBar
   },
   {
     path: '/CategoriasADM',

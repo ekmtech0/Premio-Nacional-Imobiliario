@@ -21,6 +21,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAuthenticationSuport();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<SaveChages>();
 builder.Services.AddScoped<ICandidatoRepository, CandidatoRepository>();
@@ -50,6 +60,7 @@ app.UseHttpsRedirection();
 app.UseGlobalExceptionHandler();
 
 //app.MapControllers();
+app.UseCors("AllowAll");
 
 app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();

@@ -16,7 +16,10 @@
         <div v-if="Captcha" @click="FecharCaptcha()">
           <label class="block text-sm font-medium">reCAPTCHA</label>
           <div class="w-full h-24 bg-gray-300 rounded-lg flex items-center justify-center text-gray-600">
-           Clique aqui para avançar
+              <ReCaptcha
+                siteKey="6LfKMPYrAAAAAGumXzOHo99HHawcUaNLNzveM-lT"
+                @verified="onVerified"
+              />
           </div>
         </div>
 
@@ -120,6 +123,10 @@
 <script setup>
 import { ref } from 'vue'
 import VerficarEmail from './VerficarEmail.vue'
+import ReCaptcha from './ReCaptcha.vue'
+
+const nome = ref('')
+const email = ref('')
 
 const Captcha = ref(true)
 const Form1 = ref(false)
@@ -127,7 +134,11 @@ const VerfEmail = ref(false)
 const Form3 = ref(false)
 const VotoRealizado = ref(false)
 
-function FecharCaptcha() {
+
+
+function onVerified(token) {
+  console.log('Token recebido:', token)
+  // Aqui podes enviar para o backend ASP.NET Core para verificar
   Captcha.value = false
   Form1.value = true
 }

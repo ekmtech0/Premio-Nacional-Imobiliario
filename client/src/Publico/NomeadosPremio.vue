@@ -30,18 +30,18 @@
               >
                 <!-- Conteúdo ORIGINAL mantido -->
                 <div class="flex flex-col items-center">
-                  <img :src="Nomeado.Imagem" class="h-20 w-20 rounded-full object-cover bg-gray-300" />
+                  <img :src="Nomeado.photoUrl" class="h-20 w-20 rounded-full object-cover bg-gray-300" />
                   <h1 class="text-azul font-open font-bold text-lg md:text-xl text-center pt-4">
-                    {{ Nomeado.Nome }}
+                    {{ Nomeado.nome }}
                   </h1>
                 </div>
 
                 <p class="font-open text-sm md:text-base text-gray-700 text-center pt-2">
-                  {{ Nomeado.Descricao }}
+                  {{ Nomeado.description }}
                 </p>
 
                 <p class="font-open text-sm md:text-base text-gray-700 text-center pt-4">
-                  <span class="font-bold">Categoria:</span> {{ Nomeado.Categoria }}
+                  <span class="font-bold">Categoria:</span> {{ Nomeado.categoria }}
                 </p>
 
                 <div class="mt-auto pt-6">
@@ -68,31 +68,33 @@
 
 <script setup>
 import { ref, computed, nextTick, watch, onMounted, onBeforeUnmount } from 'vue'
+import axios from 'axios'
+import { http } from '@/Request/api'
 
 const Nomeados = ref([
   {
-    Nome: 'Victor Makuka',
-    Descricao: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
-    Categoria: 'Arquitetura Imobiliária de Excelência',
-    Imagem: '/Ang.jpeg',
+    nome: 'Victor Makuka',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
+    categoria: 'Arquitetura Imobiliária de Excelência',
+    photoUrl: '/Ang.jpeg',
   },
   {
-    Nome: 'Linear Comunicações',
-    Descricao: 'Projeto residencial sustentável em Luanda, com foco em eficiência energética...',
-    Categoria: 'Serviço Público na Habitação',
-    Imagem: '/Angola.jpeg',
+    nome: 'Linear Comunicações',
+    description: 'Projeto residencial sustentável em Luanda, com foco em eficiência energética...',
+    categoria: 'Serviço Público na Habitação',
+    photoUrl: '/Angola.jpeg',
   },
   {
-    Nome: 'EKM Tech Solutions',
-    Descricao: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
-    Categoria: 'Mediação Imobiliária de Referência',
-    Imagem: '/Luanda.jpeg',
+    nome: 'EKM Tech Solutions',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
+    categoria: 'Mediação Imobiliária de Referência',
+    photoUrl: '/Luanda.jpeg',
   },
   {
-    Nome: 'SG Design',
-    Descricao: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
-    Categoria: 'Desenvolvimento Imobiliário Sustentável',
-    Imagem: '/Ang.jpeg',
+    nome: 'SG Design',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
+    categoria: 'Desenvolvimento Imobiliário Sustentável',
+    photoUrl: '/Ang.jpeg',
   },
 ])
 
@@ -164,7 +166,19 @@ watch(filteredNomeados, () => {
   })
 })
 
-onMounted(() => {
+async function fetchNomeados() {
+ try {
+   const response = await http.get('/candidatos')
+   console.log('Nomeados recebidos:', response.data)
+    Nomeados.value = response.data
+   return response.data
+ } catch (error) {
+   console.error('Erro ao buscar nomeados:', error)
+   return []
+ }
+}
+
+onMounted(async () => {
   nextTick(() => {
     if (scrollContainer.value) {
       scrollContainer.value.addEventListener('scroll', onScroll, { passive: true })
@@ -172,6 +186,7 @@ onMounted(() => {
       onScroll()
     }
   })
+await fetchNomeados();
 })
 
 onBeforeUnmount(() => {
