@@ -5,10 +5,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
-  // ⚠️ nome do repositório no GitHub
-  base: process.env.NODE_ENV === 'production'
-    ? '/Premio-Nacional-Imobiliario/'
-    : '/',
+  // ✅ Para Vercel ou qualquer domínio (não GitHub Pages):
+  base: './', // <- MUITO IMPORTANTE!
   plugins: [
     vue(),
     vueJsx(),
