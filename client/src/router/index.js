@@ -10,6 +10,11 @@ import ResultadosAtuais from '@/Publico/ResultadosAtuais.vue'
 import ParceirosPNI from '@/Publico/ParceirosPNI.vue'
 import ContactosPNI from '@/Publico/ContactosPNI.vue'
 import FooterPNI from '@/Publico/FooterPNI.vue'
+import DashboardPNI from '@/ADM/DashboardPNI.vue'
+import LoginPNI from '@/ADM/LoginPNI.vue'
+import VerficarEmail from '@/Publico/VerficarEmail.vue'
+import SideBar from '@/ADM/SideBar.vue'
+import CategoriasADM from '@/ADM/CategoriasADM.vue'
 
 export const routes = [
   {
@@ -67,8 +72,33 @@ export const routes = [
     path:'/FooterPNI',
     name:'FooterPNI',
     component: FooterPNI,
+  },
+  {
+    path: '/DashboardPNI',
+    name: 'DashboardPNI',
+    component: DashboardPNI,
+  },
+  {
+    path: '/LoginPNI',  
+    name: 'LoginPNI',
+    component: LoginPNI,
+  },
+  {
+    path: '/VerficarEmail',
+    name: 'VerficarEmail',
+    component: VerficarEmail,
+
+  },
+  {
+    path: '/SideBar',
+    name: 'Sidebar',
+    componente: SideBar
+  },
+  {
+    path: '/CategoriasADM',
+    name: 'CategoriasADM',
+    component: CategoriasADM
   }
-  
   
 ]
 

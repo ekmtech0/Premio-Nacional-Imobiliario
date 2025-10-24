@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   // ⚠️ nome do repositório no GitHub
   base: process.env.NODE_ENV === 'production'
-    ? '/Premio-Imobiliario-Nacional/'
+    ? '/Premio-Nacional-Imobiliario/'
     : '/',
   plugins: [
     vue(),

@@ -7,12 +7,12 @@
     "node": "^20.19.0 || >=22.12.0"
   },
 
-  "homepage": "https://github.com/victormakuka/Premio-Imobiliario-Nacional/",
+  "homepage": "https://github.com/ekmtech0/Premio-Imobiliario-Nacional/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist",
+    "deploy": "pnpm run build && gh-pages -d dist",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*"
