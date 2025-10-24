@@ -15,7 +15,7 @@ namespace server.Repositories
             this.context = context;
         }
 
-        public async Task<CategoriaReturnDTO> AddCategoriaAsnyc(CategoriaDTO model)
+        public async Task<CategoriaDTO> AddCategoriaAsnyc(CategoriaCreateDTO model)
         {
             var categoria = new Categoria
             {
@@ -24,9 +24,9 @@ namespace server.Repositories
             };
            var c = await context.Categorias.AddAsync(categoria);
 
-            return new CategoriaReturnDTO
+            return new CategoriaDTO
             {
-                Id = categoria.Id,
+                Id = c.Entity.Id,
                 Nome = categoria.Nome,
                 Description = categoria.Description,
             };
@@ -47,11 +47,19 @@ namespace server.Repositories
 
         public async Task<List<CategoriaReturnDTO>> GetAllCategoriasAsync() =>
             await context.Categorias
+                .Include(c => c.Candidatos)
                 .Select(c => new CategoriaReturnDTO
                 {
                     Id = c.Id,
                     Nome = c.Nome,
                     Description = c.Description,
+                    Candidatos = c.Candidatos.Select(ca => new CandidatoWithCategoriaDTO
+                    {
+                        Id = ca.Id,
+                        Nome = ca.Nome,
+                        Description = ca.Description,
+                        PhotoUrl = ca.PhotoUrl,
+                    }).ToList()
                 }).ToListAsync();
 
         public async Task<CategoriaReturnDTO?> GetCategoriaByIdAsync(Guid id)=>
@@ -59,11 +67,19 @@ namespace server.Repositories
                 .Where(c => c.Id == id)
                 .Select(c => new CategoriaReturnDTO
                 {
+                    Id = c.Id,
                     Nome = c.Nome,
                     Description = c.Description,
+                    Candidatos = c.Candidatos.Select(ca => new CandidatoWithCategoriaDTO
+                    {
+                        Id = ca.Id,
+                        Nome = ca.Nome,
+                        Description = ca.Description,
+                        PhotoUrl = ca.PhotoUrl,
+                    }).ToList()
                 }).FirstOrDefaultAsync();
 
-        public async Task<CategoriaReturnDTO?> UpdateCategoriaAsync(Guid id, CategoriaDTO model)
+        public async Task<CategoriaDTO?> UpdateCategoriaAsync(Guid id, CategoriaCreateDTO model)
         {
             var categoria = await context.Categorias.FirstOrDefaultAsync(c => c.Id == id);
             if (categoria == null)
@@ -72,7 +88,7 @@ namespace server.Repositories
             categoria.Description = model.Description;
             context.Categorias.Update(categoria);
 
-            return new CategoriaReturnDTO
+            return new CategoriaDTO
             {
                 Id = categoria.Id,
                 Nome = categoria.Nome,

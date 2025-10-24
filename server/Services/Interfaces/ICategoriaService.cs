@@ -5,7 +5,7 @@ namespace server.Services.Interfaces
     public interface ICategoriaService
     {
         Task<bool> CategoriaExistsAsync(string nome);
-        Task<CategoriaReturnDTO> AddCategoriaAsnyc(CategoriaDTO model);
+        Task<CategoriaDTO?> AddCategoriaAsnyc(CategoriaCreateDTO model);
 
         Task<List<CategoriaReturnDTO>> GetAllCategoriasAsync();
 
@@ -13,6 +13,6 @@ namespace server.Services.Interfaces
 
         Task<bool> DeleteCategoriaAsync(Guid id);
 
-        Task<CategoriaReturnDTO?> UpdateCategoriaAsync(Guid id, CategoriaDTO model);
+        Task<CategoriaDTO?> UpdateCategoriaAsync(Guid id, CategoriaCreateDTO model);
     }
 }
