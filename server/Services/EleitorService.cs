@@ -51,11 +51,34 @@ public class EleitorService : IEleitorService
             Nome = eleitorDto.Nome,
             Email = eleitorDto.Email,
             Role = "Eleitor",
-            // Confirmed = false
+            IsEmailConfirmed = false
         };
         await _eleitorRepository.AddAsync(eleitor);
         await _codeGenerator.GenerateCode(eleitorDto.Email);
         await saveChages.SaveChangesAsync();
         return "Confirme o seu email para finalizar o cadastro.";
+    }
+
+    public async Task<List<EleitorWithVotosDTO>> GetAllEleitorWithVotosAsync()
+    {
+        var eleitores = await _eleitorRepository.GetEleitorsAsync();
+        return eleitores;
+    }
+
+    public async Task<EleitorWithVotosDTO?> GetEleitorAndVotosByIdAsync(Guid id)
+    {
+        var eleitor = await _eleitorRepository.GetEleitorByIdAsync(id);
+        return eleitor;
+    }
+
+    public async Task<EleitorDTO?> GetEleitorByIdAsync(Guid id)
+    {
+        var eleitor =  await _eleitorRepository.GetByIdAsync(id);
+        return eleitor is null ? null : new EleitorDTO
+        {
+            //Id = eleitor.Id,
+            Nome = eleitor.Nome,
+            Email = eleitor.Email
+        };
     }
 }

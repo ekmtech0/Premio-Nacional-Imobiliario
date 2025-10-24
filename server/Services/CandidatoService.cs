@@ -11,7 +11,7 @@ namespace server.Services
         private readonly ICandidatoRepository repository = repository;
         private readonly SaveChages _saveChages = saveChages;
 
-        public async Task<CandidatoDTO> CadastrarCandidatoAsync(CandidatoDTO model)
+        public async Task<CandidatoReturnDTO> CadastrarCandidatoAsync(CandidatoDTO model)
         {
             var user = await repository.AddCadidatoAsync(model);
 
@@ -20,12 +20,12 @@ namespace server.Services
 
             await _saveChages.SaveChangesAsync();
 
-            return new CandidatoDTO
+            return new CandidatoReturnDTO
             {
                 Nome = user.Nome,
                 Description = user.Description,
                 PhotoUrl = user.PhotoUrl,
-                CategoriaId = user.CategoriaId
+                Categoria = user.Categoria
             };
         }
 
@@ -36,33 +36,20 @@ namespace server.Services
             return true;
         }
 
-        public async Task<List<CandidatoDTO>> GetAllCandidatosAsync()
+        public async Task<List<CandidatoReturnDTO>> GetAllCandidatosAsync()
         {
-            var candidatos = await repository.GetAllAsync();
+            var candidatos = await repository.GetAllCandiditatosAsync();
 
-            return candidatos.Select(c => new CandidatoDTO
-            {
-                Nome = c.Nome,
-                Description = c.Description,
-                PhotoUrl = c.PhotoUrl,
-                CategoriaId = c.CategoriaId
-            }).ToList();
+            return candidatos;
         }
 
-        public async Task<CandidatoDTO?> GetCandidatoByIdAsync(Guid id)
+        public async Task<CandidatoReturnDTO?> GetCandidatoByIdAsync(Guid id)
         {
-            var candidato = await repository.GetByIdAsync(id);
-
-            return candidato is null ? null : new CandidatoDTO
-            {
-                Nome = candidato.Nome,
-                Description = candidato.Description,
-                PhotoUrl = candidato.PhotoUrl,
-                CategoriaId = candidato.CategoriaId
-            };
+            var candidato = await repository.GetCandidatoById(id);
+            return candidato;
         }
 
-        public async Task<CandidatoDTO?> UpdateCandidatoAsync(Guid id, CandidatoDTO model)
+        public async Task<CandidatoReturnDTO?> UpdateCandidatoAsync(Guid id, CandidatoDTO model)
         {
             // Verifica se o candidato existe
             var candidato = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException("Usuário não existe");
@@ -74,12 +61,12 @@ namespace server.Services
             repository.UpdateAsync(candidato);
 
             await _saveChages.SaveChangesAsync();
-            return new CandidatoDTO
+            return new CandidatoReturnDTO
             {
                 Nome = candidato.Nome,
                 Description = candidato.Description,
                 PhotoUrl = candidato.PhotoUrl,
-                CategoriaId = candidato.CategoriaId
+                Categoria = candidato.Categoria.Nome
             };
         }
     }

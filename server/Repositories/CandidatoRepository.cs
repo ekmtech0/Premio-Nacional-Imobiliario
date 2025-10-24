@@ -12,7 +12,7 @@ namespace server.Repositories
         {
         }
 
-        public async Task<CandidatoDTO?> AddCadidatoAsync(CandidatoDTO model)
+        public async Task<CandidatoReturnDTO?> AddCadidatoAsync(CandidatoDTO model)
         {
             var categoria = await _context.Categorias
                 .FirstOrDefaultAsync(c => c.Id == model.CategoriaId);
@@ -30,14 +30,44 @@ namespace server.Repositories
             };
 
             var user = await _context.Candidatos.AddAsync(candidato);
-
-            return new CandidatoDTO
-            {
-                CategoriaId = user.Entity.Categoria.Id,
+            return new CandidatoReturnDTO
+           {
+                Id = user.Entity.Id,
                 Nome = user.Entity.Nome,
                 Description = user.Entity.Description,
-                PhotoUrl = user.Entity.PhotoUrl
-            };
+                PhotoUrl = user.Entity.PhotoUrl,
+                Categoria = user.Entity.Categoria.Nome
+           };
+        }
+
+        public async Task<List<CandidatoReturnDTO>> GetAllCandiditatosAsync()
+        {
+            return await _context.Candidatos
+                .Include(c => c.Categoria)
+                .Select(c => new CandidatoReturnDTO
+                {
+                    Id = c.Id,
+                    Nome = c.Nome,
+                    Description = c.Description,
+                    PhotoUrl = c.PhotoUrl,
+                    Categoria = c.Categoria.Nome
+                })
+                .ToListAsync();
+        }
+
+        public async Task<CandidatoReturnDTO?> GetCandidatoById(Guid id)
+        {
+            return await _context.Candidatos
+                .Include(c => c.Categoria)
+                .Select(c => new CandidatoReturnDTO
+                {
+                    Id = c.Id,
+                    Nome = c.Nome,
+                    Categoria = c.Categoria.Nome,
+                    Description = c.Description,
+                    PhotoUrl = c.PhotoUrl
+                })
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
     }
 }

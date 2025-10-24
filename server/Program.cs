@@ -32,6 +32,8 @@ builder.Services.AddScoped<IEleitorService, EleitorService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IGenerateConfirmationCode, GenerateConfirmationCode>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IVotoRepository, VotoRepository>();
+builder.Services.AddScoped<IVotoService, VotoService>();
 
 var app = builder.Build();
 
@@ -53,5 +55,6 @@ app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();
 app.MapCategoriaEndpoints();
 app.MapEleitorEndpoints();
+app.MapVotoEndpoints();
 
 app.Run();

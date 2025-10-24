@@ -26,5 +26,20 @@ public static class EleitorEndpoints
             }
             return Results.BadRequest(new { Message = "Invalid confirmation code." });
         });
+        routes.MapGet("/{id:Guid}", async (Guid id, IEleitorService eleitorService) =>
+        {
+            var eleitor = await eleitorService.GetEleitorByIdAsync(id);
+            return eleitor is not null ? Results.Ok(eleitor) : Results.NotFound();
+        });
+        routes.MapGet("/{id:Guid}/votos", async (Guid id, IEleitorService eleitorService) =>
+        {
+            var eleitorWithVotos = await eleitorService.GetEleitorAndVotosByIdAsync(id);
+            return eleitorWithVotos is not null ? Results.Ok(eleitorWithVotos) : Results.NotFound();
+        });
+        routes.MapGet("/with-votos", async (IEleitorService eleitorService) =>
+        {
+            var eleitorWithVotosList = await eleitorService.GetAllEleitorWithVotosAsync();
+            return Results.Ok(eleitorWithVotosList);
+        });
     }
 }

@@ -7,6 +7,8 @@ namespace server.Repositories.Interfaces
     {
         //Adicione métodos específicos do Candidato aqui, se necessário
 
-        public Task<CandidatoDTO?> AddCadidatoAsync(CandidatoDTO model);
+        public Task<CandidatoReturnDTO?> AddCadidatoAsync(CandidatoDTO model);
+        public Task<List<CandidatoReturnDTO>> GetAllCandiditatosAsync();
+        public Task<CandidatoReturnDTO?> GetCandidatoById(Guid id);
     }
 }

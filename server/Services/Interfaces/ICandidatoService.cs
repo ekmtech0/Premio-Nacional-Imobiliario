@@ -4,13 +4,13 @@ namespace server.Services.Interfaces
 {
     public interface ICandidatoService
     {
-        Task<CandidatoDTO> CadastrarCandidatoAsync(CandidatoDTO model);
-        Task<List<CandidatoDTO>> GetAllCandidatosAsync();
+        Task<CandidatoReturnDTO> CadastrarCandidatoAsync(CandidatoDTO model);
+        Task<List<CandidatoReturnDTO>> GetAllCandidatosAsync();
 
         Task<bool> DeleteCandidatoAsycnc(Guid id);
 
-        Task<CandidatoDTO?> GetCandidatoByIdAsync(Guid id);
+        Task<CandidatoReturnDTO?> GetCandidatoByIdAsync(Guid id);
 
-        Task<CandidatoDTO?> UpdateCandidatoAsync(Guid id, CandidatoDTO model);
+        Task<CandidatoReturnDTO?> UpdateCandidatoAsync(Guid id, CandidatoDTO model);
     }
 }

@@ -7,6 +7,7 @@ namespace server.Models
         [Required]
         // Lista de votos que o eleitor fez
         public List<Voto> Votos { get; set; } = new();
+
         [EmailAddress]
         public string Email { get; set; } = null!;
 

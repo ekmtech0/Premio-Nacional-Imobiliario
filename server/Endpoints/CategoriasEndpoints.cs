@@ -22,10 +22,10 @@ namespace server.Endpoints
                 var categoria = await service.GetCategoriaByIdAsync(id);
                 return categoria is not null ? Results.Ok(categoria) : Results.NotFound();
             });
-            endpoints.MapPost("/", async (CategoriaDTO model, ICategoriaService service) =>
+            endpoints.MapPost("/", async (CategoriaCreateDTO model, ICategoriaService service) =>
             {
                 var categoria = await service.AddCategoriaAsnyc(model);
-                return Results.Created($"/candidatos/{categoria.Nome}", categoria);
+                return categoria is not null ? Results.Created($"/candidatos/{categoria.Nome}", categoria) : Results.Content("Categoria existente");
             });
             endpoints.MapDelete("/{id}", async (Guid id, ICategoriaService service) =>
             {

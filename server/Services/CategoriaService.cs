@@ -16,22 +16,18 @@ namespace server.Services
             this.saveChages = saveChages;
         }
 
-        public async Task<CategoriaReturnDTO> AddCategoriaAsnyc(CategoriaDTO model)
+        public async Task<CategoriaDTO?> AddCategoriaAsnyc(CategoriaCreateDTO model)
         {
             var res = await this.CategoriaExistsAsync(model.Nome);
 
             if (res)
             {
-                throw new Exception("Categoria já existe");
+                return null;
             }
-            await _repositoy.AddCategoriaAsnyc(model);
+            var categoria = await _repositoy.AddCategoriaAsnyc(model);
             await saveChages.SaveChangesAsync();
 
-            return new CategoriaReturnDTO
-            {
-                Nome = model.Nome,
-                Description = model.Description
-            };
+            return categoria;
         }
 
         public async Task<bool> CategoriaExistsAsync(string nome) => await _repositoy.CategoriaExistsAsync(nome);
@@ -51,15 +47,11 @@ namespace server.Services
         public async Task<CategoriaReturnDTO?> GetCategoriaByIdAsync(Guid id) =>
             await _repositoy.GetCategoriaByIdAsync(id);
 
-        public async Task<CategoriaReturnDTO?> UpdateCategoriaAsync(Guid id, CategoriaDTO model)
+        public async Task<CategoriaDTO?> UpdateCategoriaAsync(Guid id, CategoriaCreateDTO model)
         {
-            await _repositoy.UpdateCategoriaAsync(id, model);
+            var categoria = await _repositoy.UpdateCategoriaAsync(id, model);
             await saveChages.SaveChangesAsync();
-            return new CategoriaReturnDTO
-            {
-                Nome = model.Nome,
-                Description = model.Description
-            };
+            return categoria;
         }
     }
 }
