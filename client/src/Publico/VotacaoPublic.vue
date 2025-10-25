@@ -125,9 +125,6 @@ import { ref } from 'vue'
 import VerficarEmail from './VerficarEmail.vue'
 import ReCaptcha from './ReCaptcha.vue'
 
-const nome = ref('')
-const email = ref('')
-
 const Captcha = ref(true)
 const Form1 = ref(false)
 const VerfEmail = ref(false)
