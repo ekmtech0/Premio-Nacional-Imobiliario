@@ -67,7 +67,7 @@
         <RouterLink @click="fecharMenu" to="/">Júri e Seleção</RouterLink>
         <RouterLink @click="fecharMenu" to="/">Resultados</RouterLink>
         <RouterLink @click="fecharMenu" to="/">Contactos</RouterLink>
-      
+        <RouterLink @click="fecharMenu" to="/DashboardPNI">Dashboard PNI</RouterLink>
       </nav>
     </transition>
    
@@ -76,7 +76,7 @@
 
 <script setup>
 import { ref } from 'vue'
-
+import DashboardPNI from '@/ADM/DashboardPNI.vue'
 const menuAberto = ref(false)
 const fecharMenu = () => {
   menuAberto.value = false
