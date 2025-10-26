@@ -95,7 +95,7 @@
         </div>
 
         <!-- ÚLTIMOS VOTOS -->
-        <div class="bg-gray-100 flex flex-col p-6 shadow rounded-xl lg:h-1/2">
+        <!-- <div class="bg-gray-100 flex flex-col p-6 shadow rounded-xl lg:h-1/2">
           <span class="text-azul font-open font-semibold md:text-xl pt-2">Últimos Votos</span>
 
           <div class="pt-4 flex flex-col space-y-2">
@@ -104,16 +104,11 @@
             <span class="text-sm text-gray-700">Steoar Nsingi → SG Design (21/10/2025, 16:17)</span>
             <span class="text-sm text-gray-700">Steoar Nsingi → SG Design (21/10/2025, 16:15)</span>
           </div>
-        </div>
+        </div> -->
         </div>
       
 
-      <!-- FAVORITO DO PÚBLICO -->
-      <div class="bg-gray-100 flex flex-col p-6 shadow rounded-xl mt-6 max-w-md mx-auto lg:mx-0">
-        <span class="text-azul font-open font-semibold md:text-xl">Favorito do Público (Atual)</span>
-        <span class="text-azul font-open font-bold text-lg md:text-xl pt-4">SG Design</span>
-        <span class="text-sm text-gray-700">3 votos</span>
-      </div>
+     
 
     </div>
   </section>

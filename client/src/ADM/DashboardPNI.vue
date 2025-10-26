@@ -69,6 +69,13 @@
           </button>
         </div>
       </section>
+
+       <!-- FAVORITO DO PÚBLICO -->
+      <div class="bg-gray-100 flex flex-col p-6 shadow rounded-xl mt-6 max-w-md mx-auto lg:mx-0">
+        <span class="text-azul font-open font-semibold md:text-xl">Favorito do Público (Atual)</span>
+        <span class="text-azul font-open font-bold text-lg md:text-xl pt-4">SG Design</span>
+        <span class="text-sm text-gray-700">3 votos</span>
+      </div>
      </div>
     </main>
   </div>

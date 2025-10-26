@@ -72,9 +72,8 @@ useHead({
 
 <SobrePremio/>
  
- <categoriaPremio/>
+
   <NomeadosPremio/>
- <VotacaoPublic/>
  <JuriSelecao/>
  <ResultadosAtuais/>
  <ParceirosPNI/>
