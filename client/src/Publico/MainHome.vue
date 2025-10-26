@@ -26,7 +26,7 @@ useHead({
 <section class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden" id="inicio">
   <!-- Imagem de fundo -->
   <img
-    src="/src/Img/Angola.jpeg"
+    src="/src/Img/Luanda.jpeg"
     alt="Luanda"
     class="absolute inset-0 w-full h-full object-cover z-0"
   />
