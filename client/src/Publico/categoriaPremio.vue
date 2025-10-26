@@ -7,7 +7,7 @@
 <div class="p-4 max-w-7xl mx-auto">
   <h1 class="font-montserrat font-bold text-2xl md:text-3xl text-azul ">Categorias Oficiais</h1>
   <h2 class="font-open text-sm md:text-base text-gray-900 pb-8">
-    As áreas em que o prémio reconhece a excelência.
+    As áreas em que o prémio reconhece a excelência.nw
   </h2>
  <!-- Container dos cards -->
  <div 
