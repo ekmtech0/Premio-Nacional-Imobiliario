@@ -56,18 +56,18 @@
       
       <nav
         v-if="menuAberto"
-        class="lg:hidden flex flex-col items-center space-y-4 py-6 bg-azul text-white text-lg font-medium border-t border-white/20 fixed top-20 left-0 w-full z-50"
+        class="lg:hidden flex flex-col items-center space-y-4 py-6 bg-azul text-white text-lg font-medium border-t border-white/20 absolute top-20 left-0 w-full z-50"
       >
    
-        <RouterLink @click="fecharMenu" to="/">Início</RouterLink>
-        <RouterLink @click="fecharMenu" to="/">Sobre o Prémio</RouterLink>
-        <RouterLink @click="fecharMenu" to="/categoriaPremio">Categorias</RouterLink>
-        <RouterLink @click="fecharMenu" to="/JuriSelecao">Nomeados</RouterLink>
-        <RouterLink @click="fecharMenu" to="/">Votação do Público</RouterLink>
-        <RouterLink @click="fecharMenu" to="/">Júri e Seleção</RouterLink>
-        <RouterLink @click="fecharMenu" to="/">Resultados</RouterLink>
-        <RouterLink @click="fecharMenu" to="/">Contactos</RouterLink>
-        <RouterLink @click="fecharMenu" to="/DashboardPNI">Dashboard PNI</RouterLink>
+        <RouterLink  to="/">Início</RouterLink>
+        <RouterLink  to="#sobre">Sobre o Prémio</RouterLink>
+        <RouterLink to="/categoriaPremio">Categorias</RouterLink>
+        <RouterLink  to="/">Nomeados</RouterLink>
+        <RouterLink  to="/">Votação do Público</RouterLink>
+        <RouterLink  to="/JuriSelecao">Júri e Seleção</RouterLink>
+        <RouterLink  to="/">Resultados</RouterLink>
+        <RouterLink  to="/">Contactos</RouterLink>
+      
       </nav>
     </transition>
    

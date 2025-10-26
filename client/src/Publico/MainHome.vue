@@ -3,7 +3,6 @@ import { useHead } from '@vueuse/head'
 import NavBar from '@/componentes/NavBar.vue'
 import SobrePremio from '@/Publico/SobrePremio.vue'
 import NomeadosPremio from './NomeadosPremio.vue'
-import JuriSelecao from './JuriSelecao.vue'
 import ResultadosAtuais from './ResultadosAtuais.vue'
 import ParceirosPNI from './ParceirosPNI.vue'
 import FooterPNI from './FooterPNI.vue'
@@ -22,9 +21,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const imagens = [
   
-  '/src/Img/Angola.jpeg',
-  '/src/Img/Luanda.jpeg',
-  '/src/Img/Marginal.jpeg',
+  '/Img/Angola.jpeg',
+  '/Img/Luanda.jpeg',
+  '/Img/Marginal.jpeg',
   
 ]
 
