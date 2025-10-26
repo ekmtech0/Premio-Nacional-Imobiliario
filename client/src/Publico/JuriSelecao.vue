@@ -1,5 +1,7 @@
 <template>
-   <section class="border-t border-b border-t-gray-200 border-b-gray-200 p-4 lg:pt-12 lg:pb-12" id="juri">
+   <NavBar/>
+
+   <section class="border-t border-b border-t-gray-200 border-b-gray-200 p-4  lg:pt-24 lg:pb-24" id="juri">
    <div class="p-4 max-w-7xl mx-auto">
       <div class="lg:bg-gray-100  lg:p-8 lg:rounded-lg">
           
@@ -12,5 +14,16 @@
          </div>
       </div>
 </div>
+
    </section>
+   
+  <FooterPNI/> 
 </template>
+
+<script setup>
+import NavBar from '@/componentes/NavBar.vue';
+import FooterPNI from './FooterPNI.vue';
+
+
+
+</script>

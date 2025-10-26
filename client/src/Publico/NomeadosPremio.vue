@@ -7,13 +7,7 @@
             </h2>
 
             <!-- MOBILE = SCROLL HORIZONTAL / DESKTOP = GRID -->
-            <div>
-              <label class="block text-sm font-medium">Ver por categorias</label>
-              <select v-model="selectedCategory"  class="p-3 border border-gray-300 text-sm rounded-lg w-full">
-                <option value="">Todos nomeados</option>
-                <option v-for="(c, i) in Categorias" :key="i" :value="c">{{ c }}</option>
-              </select>
-            </div>
+           
 
             <div
               ref="scrollContainer"

@@ -1,8 +1,9 @@
 <template>
+   <NavBar/>
   <section class="border-t border-b border-t-gray-200 border-b-gray-200 p-4  lg:pt-24 lg:pb-24" id="categoria">
     
  <!-- Cabeçalho -->
- 
+
 
 <div class="p-4 max-w-7xl mx-auto">
   <h1 class="font-montserrat font-bold text-2xl md:text-3xl text-azul ">Categorias Oficiais</h1>
@@ -74,11 +75,14 @@
       :class="activeIndex === i ? 'bg-verde w-1.5' : 'bg-gray-500'"
      ></button>
     </div> 
-  </section> 
+  </section>
+   <FooterPNI/> 
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import NavBar from '@/componentes/NavBar.vue';
+import  FooterPNI  from '@/Publico/FooterPNI.vue'
+import { ref,  onMounted, onBeforeUnmount, nextTick } from 'vue';
 
 const Categorias = ref([
   {

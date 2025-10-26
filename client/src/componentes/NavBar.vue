@@ -39,14 +39,14 @@
 
       <!-- NAVIGATION DESKTOP -->
       <nav class="hidden lg:flex space-x-4 text-base font-medium">
-        <a href="#inicio"  class="hover:text-gray-200 transition-colors">Início</a>
-        <a href="#sobre" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Sobre o Prémio</a>
+        <a href="/"  class="hover:text-gray-200 transition-colors">Início</a>
+        <a href="/#sobre" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Sobre o Prémio</a>
         <a @click="irPara('/categoriaPremio')" class="whitespace-nowrap hover:text-gray-200 transition-colors cursor-pointer"> Categorias</a>
-        <a href="#nomeado" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Nomeados</a>
-        <a href="#votacao" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Votação do Público</a>
-        <a href="#juri" class="whitespace-nowrap hover:text-gray-200 transition-colors">Júri e Seleção</a>
+        <a href="/#nomeado" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Nomeados</a>
+        <a href="/#votacao" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Votação do Público</a>
+        <a @click="irPara('/JuriSelecao')" class="whitespace-nowrap hover:text-gray-200 transition-colors cursor-pointer">Júri e Seleção</a>
         <a href="resultado" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Resultados</a>
-        <a href="#contato" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Contactos</a>
+        <a href="/#contato" class="whitespace-nowrap hover:text-gray-200 transition-colors"> Contactos</a>
       </nav>
     </div>
 
@@ -62,7 +62,7 @@
         <RouterLink @click="fecharMenu" to="/">Início</RouterLink>
         <RouterLink @click="fecharMenu" to="/">Sobre o Prémio</RouterLink>
         <RouterLink @click="fecharMenu" to="/categoriaPremio">Categorias</RouterLink>
-        <RouterLink @click="fecharMenu" to="/">Nomeados</RouterLink>
+        <RouterLink @click="fecharMenu" to="/JuriSelecao">Nomeados</RouterLink>
         <RouterLink @click="fecharMenu" to="/">Votação do Público</RouterLink>
         <RouterLink @click="fecharMenu" to="/">Júri e Seleção</RouterLink>
         <RouterLink @click="fecharMenu" to="/">Resultados</RouterLink>
