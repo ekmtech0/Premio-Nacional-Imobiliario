@@ -1,10 +1,63 @@
 <template>
-     <section class="border-t border-b border-gray-200 p-4 lg:py-20" id="parceiros">
-    <div class="max-w-7xl mx-auto pt-12">
-      <h1 class="font-montserrat font-bold text-azul text-2xl">Parceiros</h1>
-      <h2 class="font-open text-sm md:text-base text-gray-900 pb-8">
-        Parceiros que apoiam e promovem a excelência no setor imobiliário.
+  <section class="w-full bg-gray-50 py-10">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <!-- Título -->
+      <h2 class="text-2xl md:text-3xl font-bold text-azul mb-8">
+        Parceiros / Apoios
       </h2>
+
+      <!-- Carrossel de Logos -->
+      <div class="overflow-hidden relative">
+        <div
+          class="flex items-center gap-12 animate-scroll"
+          :style="{ animationDuration: `${velocidade}s` }"
+        >
+          <!-- Duplicar a lista de logos para efeito infinito suave -->
+          <div
+            v-for="(logo, i) in [...logos, ...logos]"
+            :key="i"
+            class="flex-shrink-0"
+          >
+            <img
+              :src="logo"
+              alt="Logo Parceiro"
+              class="h-14 md:h-20 object-contain grayscale hover:grayscale-0 transition duration-300"
+            />
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Lista de imagens dos parceiros
+const logos = ref([
+  '/Img/inh.jpg',
+  '/Img/linear2.png',
+  '/Img/apima.jpg',
+
+
+]);
+
+// Velocidade da animação (quanto maior, mais lento)
+const velocidade = 5; // 25 segundos para passar suavemente toda a faixa
+</script>
+
+<style scoped>
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* Move apenas metade pois duplicámos os logos */
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll linear infinite;
+}
+</style>

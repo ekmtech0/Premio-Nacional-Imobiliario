@@ -1,6 +1,6 @@
 <template>
-   <section class="border-t border-b border-t-gray-200 border-b-gray-200 p-4 lg:pt-12 lg:pb-12" id="sobre">
-   <div class="p-4 max-w-7xl mx-auto">
+   <section class="border-t border-b border-t-gray-200 border-b-gray-200 p-4 lg:pt-12 lg:pb-12">
+   <div class="p-4 max-w-7xl mx-auto"  id="sobre">
       <div class="lg:bg-gray-100  lg:p-8 lg:rounded-lg">
           
             <h1 class="font-montserrat font-bold text-2xl md:text-3xl text-azul">Sobre o Prémio</h1>
