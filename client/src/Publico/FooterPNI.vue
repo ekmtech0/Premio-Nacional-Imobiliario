@@ -51,7 +51,7 @@
         <div class="flex flex-col items-center md:items-start">
           <span class="text-azul font-bold font-montserrat text-sm md:text-base">Links Rápidos</span>
           <nav class="flex flex-col text-gray-700 text-xs md:text-sm space-y-1 mt-2">
-            <a href="#inicio" class="hover:text-azul">Início</a>
+            <a href="#inicio" class="hover:text-azul">início</a>
             <a href="#sobre" class="hover:text-azul">Sobre o Prémio</a>
             <a href="#categoria" class="hover:text-azul">Categorias</a>
             <a href="#nomeado" class="hover:text-azul">Nomeados</a>
