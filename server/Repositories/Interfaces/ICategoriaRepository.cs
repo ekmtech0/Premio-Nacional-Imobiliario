@@ -14,5 +14,7 @@ namespace server.Repositories.Interfaces
         Task<bool> DeleteCategoriaAsync(Guid id);
 
         Task<CategoriaDTO?> UpdateCategoriaAsync(Guid id, CategoriaCreateDTO model);
+
+        Task<List<CategoriaWithNoUserDTO>> GetCategoriaWithNoUserByIdAsync();
     }
 }

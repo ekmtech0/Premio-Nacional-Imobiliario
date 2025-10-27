@@ -25,7 +25,7 @@
         <RouterLink to="/VotacaoADM" class="hover:bg-white/10 p-3 rounded transition">Votação do Público</RouterLink>
         <RouterLink to="/ResultadoADM" class="hover:bg-white/10 p-3 rounded transition">Resultados</RouterLink>
         <RouterLink to="/UsuarioADM" class="hover:bg-white/10 p-3 rounded transition">Usuários</RouterLink>
-        <RouterLink class="hover:bg-white/10 flex items-center p-3 rounded transition">Sair</RouterLink>
+        <RouterLink class="hover:bg-white/10 flex items-center p-3 rounded transition" to="/login">Sair</RouterLink>
       </nav>
     </aside>
 

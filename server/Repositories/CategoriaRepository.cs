@@ -95,5 +95,15 @@ namespace server.Repositories
                 Description = categoria.Description,
             };
         }
+        public async Task<List<CategoriaWithNoUserDTO>> GetCategoriaWithNoUserByIdAsync()
+        {
+            return await context.Categorias
+                .Select(c => new CategoriaWithNoUserDTO
+                {
+                    Id = c.Id,
+                    Nome = c.Nome,
+                    QtdCandidatos = c.Candidatos.Count()
+                }).ToListAsync();
+        }
     }
 }

@@ -53,5 +53,9 @@ namespace server.Services
             await saveChages.SaveChangesAsync();
             return categoria;
         }
+        public async Task<List<CategoriaWithNoUserDTO>> GetCategoriaWithNoAsync()
+        {
+            return await _repositoy.GetCategoriaWithNoUserByIdAsync();
+        }
     }
 }

@@ -32,6 +32,16 @@ namespace server.Endpoints
                 var deleted = await service.DeleteCategoriaAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();
             });
+            endpoints.MapPut("/{id}", async (Guid id, CategoriaCreateDTO model, ICategoriaService service) =>
+            {
+                var categoria = await service.UpdateCategoriaAsync(id, model);
+                return categoria is not null ? Results.Ok(categoria) : Results.NotFound();
+            });
+            endpoints.MapGet("/no-user", async (ICategoriaService service) =>
+            {
+                var categorias = await service.GetCategoriaWithNoAsync();
+                return Results.Ok(categorias);
+            });
         }
     }
 }

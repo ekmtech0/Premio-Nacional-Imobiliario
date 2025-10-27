@@ -11,7 +11,7 @@
               <label class="block text-sm font-medium">Ver por categorias</label>
               <select v-model="selectedCategory"  class="p-3 border border-gray-300 text-sm rounded-lg w-full">
                 <option value="">Todos nomeados</option>
-                <option v-for="(c, i) in Categorias" :key="i" :value="c">{{ c }}</option>
+                <option v-for="(c, i) in Categorias" :key="i" :value="i">{{ c.nome }}</option>
               </select>
             </div>
 
@@ -30,18 +30,18 @@
               >
                 <!-- Conteúdo ORIGINAL mantido -->
                 <div class="flex flex-col items-center">
-                  <img :src="Nomeado.Imagem" class="h-20 w-20 rounded-full object-cover bg-gray-300" />
+                  <img :src="Nomeado.photoUrl" class="h-20 w-20 rounded-full object-cover bg-gray-300" />
                   <h1 class="text-azul font-open font-bold text-lg md:text-xl text-center pt-4">
-                    {{ Nomeado.Nome }}
+                    {{ Nomeado.nome }}
                   </h1>
                 </div>
 
                 <p class="font-open text-sm md:text-base text-gray-700 text-center pt-2">
-                  {{ Nomeado.Descricao }}
+                  {{ Nomeado.description }}
                 </p>
 
                 <p class="font-open text-sm md:text-base text-gray-700 text-center pt-4">
-                  <span class="font-bold">Categoria:</span> {{ Nomeado.Categoria }}
+                  <span class="font-bold">Categoria:</span> {{ Nomeado.categoria }}
                 </p>
 
                 <div class="mt-auto pt-6">
@@ -68,33 +68,39 @@
 
 <script setup>
 import { ref, computed, nextTick, watch, onMounted, onBeforeUnmount } from 'vue'
+import { http } from '@/Request/api'
 
-const Nomeados = ref([
-  {
-    Nome: 'Victor Makuka',
-    Descricao: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
-    Categoria: 'Arquitetura Imobiliária de Excelência',
-    Imagem: '/Ang.jpeg',
-  },
-  {
-    Nome: 'Linear Comunicações',
-    Descricao: 'Projeto residencial sustentável em Luanda, com foco em eficiência energética...',
-    Categoria: 'Serviço Público na Habitação',
-    Imagem: '/Angola.jpeg',
-  },
-  {
-    Nome: 'EKM Tech Solutions',
-    Descricao: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
-    Categoria: 'Mediação Imobiliária de Referência',
-    Imagem: '/Luanda.jpeg',
-  },
-  {
-    Nome: 'SG Design',
-    Descricao: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo explicabo soluta tempore...',
-    Categoria: 'Desenvolvimento Imobiliário Sustentável',
-    Imagem: '/Ang.jpeg',
-  },
-])
+const Categorias = ref([])
+
+const Nomeados = ref([])
+const getNomeados = async () => {
+  try {
+    const response = await http.get('/candidatos')
+    Nomeados.value = response.data
+    console.log('Nomeados carregados:', Nomeados.value)
+  } catch (error) {
+    console.error('Erro ao buscar nomeados:', error)
+  }
+}
+
+const CarregarCategorias = async () => {
+  try {
+    const response = await http.get('/categorias/no-user')
+    Categorias.value = response.data
+    console.log('Categorias carregadas:', Categorias.value)
+  } catch (error) {
+    console.error('Erro ao buscar categorias:', error)
+  }
+}
+const CarregarCategorias1 = async () => {
+  try {
+    const response = await http.get('/categorias/no-user')
+    Categorias.value = response.data
+    console.log('Categorias carregadas:', response.data)
+  } catch (error) {
+    console.error('Erro ao buscar categorias:', error)
+  }
+}
 
 // Categoria selecionada no select
 const selectedCategory = ref('')
@@ -107,8 +113,6 @@ const filteredNomeados = computed(() => {
 
 const scrollContainer = ref(null)
 const activeIndex = ref(0)
-
-const Categorias = computed(() => Nomeados.value.map(n => n.Categoria))
 
 function scrollToCard(i) {
   const el = scrollContainer.value
@@ -164,7 +168,7 @@ watch(filteredNomeados, () => {
   })
 })
 
-onMounted(() => {
+onMounted(async () => {
   nextTick(() => {
     if (scrollContainer.value) {
       scrollContainer.value.addEventListener('scroll', onScroll, { passive: true })
@@ -172,6 +176,9 @@ onMounted(() => {
       onScroll()
     }
   })
+  // carregar nomeados da API
+  await getNomeados()
+  await CarregarCategorias1()
 })
 
 onBeforeUnmount(() => {
