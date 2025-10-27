@@ -15,6 +15,11 @@ import LoginPNI from '@/ADM/LoginPNI.vue'
 import VerficarEmail from '@/Publico/VerficarEmail.vue'
 import SideBar from '@/ADM/SideBar.vue'
 import CategoriasADM from '@/ADM/CategoriasADM.vue'
+import NomeadosADM from '@/ADM/NomeadosADM.vue'
+import VotacaoADM from '@/ADM/VotacaoADM.vue'
+import ResultadoADM from '@/ADM/ResultadoADM.vue'
+import UsuarioADM from '@/ADM/UsuarioADM.vue'
+import HeaderADM from '@/ADM/HeaderADM.vue'
 
 export const routes = [
   {
@@ -40,7 +45,7 @@ export const routes = [
   {
     path: '/NomeadosPremio',
     name: 'NomeadosPremio',
-    component:NomeadosPremio,
+    component: NomeadosPremio,
   },
   {
     path: '/VotacaoPublic',
@@ -48,8 +53,8 @@ export const routes = [
     component: VotacaoPublic,
   },
   {
-    path:'/JuriSelecao',
-    name:'JuriSelecao',
+    path: '/JuriSelecao',
+    name: 'JuriSelecao',
     component: JuriSelecao,
   },
   {
@@ -58,19 +63,19 @@ export const routes = [
     component: ResultadosAtuais,
   },
 
-    {
+  {
     path: '/ParceirosPNI',
     name: 'ParceirosPNI',
     component: ParceirosPNI,
   },
   {
-      path:'/ContactosPNI',
-      name:'ContactosPNI',
-      component: ContactosPNI,
+    path: '/ContactosPNI',
+    name: 'ContactosPNI',
+    component: ContactosPNI,
   },
   {
-    path:'/FooterPNI',
-    name:'FooterPNI',
+    path: '/FooterPNI',
+    name: 'FooterPNI',
     component: FooterPNI,
   },
   {
@@ -79,7 +84,7 @@ export const routes = [
     component: DashboardPNI,
   },
   {
-    path: '/LoginPNI',  
+    path: '/LoginPNI',
     name: 'LoginPNI',
     component: LoginPNI,
   },
@@ -98,8 +103,34 @@ export const routes = [
     path: '/CategoriasADM',
     name: 'CategoriasADM',
     component: CategoriasADM
+  },
+  {
+    path: '/NomeadosADM',
+    name: '/NomeadosADM',
+    component: NomeadosADM
+  },
+
+  {
+    path: '/VotacaoADM',
+    name: 'VotacaoADM',
+    component: VotacaoADM
+  },
+  {
+    path: '/ResultadoADM',
+    name: '/ResultadoADM',
+    component: ResultadoADM
+
+  },
+  {
+    path: '/UsuarioADM',
+    name: '/UsuarioADM',
+    component: UsuarioADM
+  }, 
+  {
+    path: '/HeaderADM',
+    name: '/HeaderADM',
+    component: HeaderADM
   }
-  
 ]
 
 //  Dantas, não exportes o router aqui Devido o Prerender.

@@ -17,15 +17,15 @@
         'md:translate-x-0 md:relative md:block'
       ]"
     >
-      <h2 class="text-xl font-bold mb-6">Prémio Nacional Imobiliário</h2>
+      <h2 class="text-xl font-bold mb-6">🏆 PNI 2025 - Admin</h2>
       <nav class="flex flex-col space-y-1 text-sm lg:text-base font-medium">
-        <a href="#" class="hover:bg-white/10 p-3 rounded transition">Dashboard</a>
-        <a href="#categoriaADM" class="hover:bg-white/10 p-3 rounded transition">Categorias</a>
-        <a href="#" class="hover:bg-white/10 p-3 rounded transition">Nomeados</a>
-        <a href="#" class="hover:bg-white/10 p-3 rounded transition">Votação do Público</a>
-        <a href="#" class="hover:bg-white/10 p-3 rounded transition">Resultados</a>
-        <a href="#" class="hover:bg-white/10 p-3 rounded transition">Usuários</a>
-        <a href="#" class="hover:bg-white/10 flex items-center p-3 rounded transition">Sair</a>
+        <RouterLink to="/DashboardPNI" class="hover:bg-white/10 p-3 rounded transition">Dashboard</RouterLink>
+        <RouterLink to="/categoriasADM" class="hover:bg-white/10 p-3 rounded transition">Categorias</RouterLink>
+        <RouterLink to="/NomeadosADM" class="hover:bg-white/10 p-3 rounded transition">Nomeados</RouterLink>
+        <RouterLink to="/VotacaoADM" class="hover:bg-white/10 p-3 rounded transition">Votação do Público</RouterLink>
+        <RouterLink to="/ResultadoADM" class="hover:bg-white/10 p-3 rounded transition">Resultados</RouterLink>
+        <RouterLink to="/UsuarioADM" class="hover:bg-white/10 p-3 rounded transition">Usuários</RouterLink>
+        <RouterLink class="hover:bg-white/10 flex items-center p-3 rounded transition">Sair</RouterLink>
       </nav>
     </aside>
 
@@ -35,5 +35,6 @@
 
 <script setup>
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router';
 const isOpen = ref(false)
 </script>
