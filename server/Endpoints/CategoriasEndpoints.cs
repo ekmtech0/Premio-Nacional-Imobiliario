@@ -25,7 +25,7 @@ namespace server.Endpoints
             endpoints.MapPost("/", async (CategoriaCreateDTO model, ICategoriaService service) =>
             {
                 var categoria = await service.AddCategoriaAsnyc(model);
-                return categoria is not null ? Results.Created($"/candidatos/{categoria.Nome}", categoria) : Results.Content("Categoria existente");
+                return categoria is not null ? Results.Created($"/candidatos/{categoria.Id}", categoria) : Results.Content("Categoria existente");
             });
             endpoints.MapDelete("/{id}", async (Guid id, ICategoriaService service) =>
             {

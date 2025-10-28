@@ -36,7 +36,8 @@ namespace server.Repositories
                 Nome = user.Entity.Nome,
                 Description = user.Entity.Description,
                 PhotoUrl = user.Entity.PhotoUrl,
-                Categoria = user.Entity.Categoria.Nome
+                Categoria = user.Entity.Categoria.Nome,
+                CategoriaId = user.Entity.Categoria.Id
            };
         }
 
@@ -50,7 +51,8 @@ namespace server.Repositories
                     Nome = c.Nome,
                     Description = c.Description,
                     PhotoUrl = c.PhotoUrl,
-                    Categoria = c.Categoria.Nome
+                    Categoria = c.Categoria.Nome,
+                    CategoriaId = c.Categoria.Id
                 })
                 .ToListAsync();
         }
@@ -65,7 +67,8 @@ namespace server.Repositories
                     Nome = c.Nome,
                     Categoria = c.Categoria.Nome,
                     Description = c.Description,
-                    PhotoUrl = c.PhotoUrl
+                    PhotoUrl = c.PhotoUrl,
+                    CategoriaId = c.Categoria.Id
                 })
                 .SingleOrDefaultAsync(c => c.Id == id);
         }

@@ -18,7 +18,7 @@
       <option value="">Todos os nomeados</option>
       <option
         v-for="(categoria, index) in Categorias"
-        :key="index"
+        :key="categoria.id"
         :value="categoria.nome"
       >
         {{ categoria.nome }}
@@ -61,7 +61,8 @@
       <div class="mt-auto pt-6">
         <button
           class="bg-verde w-full text-white font-montserrat font-semibold p-2 md:p-3 rounded-lg hover:bg-green-700 transition"
-        >
+          @click="Votar(Nomeado.id, Nomeado.categoriaId)"
+          >
           Votar
         </button>
       </div>
@@ -89,6 +90,7 @@
 <script setup>
 import { ref, computed, nextTick, watch, onMounted, onBeforeUnmount } from 'vue'
 import { http } from '@/Request/api'
+import { getBrowserId } from '@/utils/getBrowserId'
 
 // --- Dados ---
 const Categorias = ref([])
@@ -119,6 +121,21 @@ const CarregarCategorias = async () => {
     console.log('Categorias carregadas:', Categorias.value)
   } catch (error) {
     console.error('Erro ao buscar categorias:', error)
+  }
+}
+
+const Votar = async (cdId, ctId)=>{
+  let votoDTO = {
+    browserId: await getBrowserId(),
+    candidatoId: cdId,
+    categoriaId: ctId
+  }
+  console.log('Votando com DTO:', votoDTO)
+  try {
+    const response = await http.post('/votos', votoDTO)
+    console.log('Voto registrado com sucesso:', response.data)
+  } catch (error) {
+    console.error('Erro ao registrar voto:', error)
   }
 }
 
@@ -193,6 +210,7 @@ onMounted(async () => {
 
   await getNomeados()
   await CarregarCategorias()
+  console.log('Browser ID:',await getBrowserId())
 })
 
 onBeforeUnmount(() => {
