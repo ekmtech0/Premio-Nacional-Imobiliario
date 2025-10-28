@@ -67,10 +67,31 @@
 import { ref } from 'vue'
 import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
+import * as signalR from '@microsoft/signalr'
+const qtdVotos = ref(0);
 const Cards = ref([
-  { titulo: 'Total de Votos', numero: '1.200' },
-  { titulo: 'Categorias', numero: '4' },
+  { titulo: 'Total de Votos', numero: qtdVotos },
+  { titulo: 'Categorias', numero: "5" },
   { titulo: 'Nomeados', numero: '15' },
   { titulo: 'Visitantes', numero: '2,5 mil' },
 ])
+
+const connection = new signalR.HubConnectionBuilder()
+  .withUrl('http://localhost:5092/votohub', {
+    withCredentials: true // 👈 importante se o servidor usa AllowCredentials()
+  })
+  .withAutomaticReconnect()
+  .configureLogging(signalR.LogLevel.Information)
+  .build();
+
+connection.on("ReceiveVoteQtdVotos", (voto) => {
+  console.log("📩 Mensagem recebida do servidor:", voto);
+  qtdVotos.value = voto;
+});
+
+connection.start()
+  .then(() => console.log("✅ Conectado ao SignalR!"))
+  .catch(err => console.error("❌ Erro ao conectar:", err));
+
+
 </script>

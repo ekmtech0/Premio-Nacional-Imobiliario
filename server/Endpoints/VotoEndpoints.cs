@@ -1,4 +1,6 @@
-﻿using server.DTOs;
+﻿using Microsoft.AspNetCore.SignalR;
+using server.DTOs;
+using server.Hubs;
 using server.Services.Interfaces;
 
 namespace server.Endpoints
@@ -10,9 +12,12 @@ namespace server.Endpoints
             var routes = app.MapGroup("/api/votos")
                     .WithTags("Votos");
 
-            routes.MapPost("/", async (IVotoService service, VotoCreateDTO model) =>
+            routes.MapPost("/", async (IVotoService service, IHubContext<VotoHub> hub, VotoCreateDTO model) =>
             {
                 var voto = await service.CreateVotoAsync(model);
+                var qtdVotos = await service.TotalVotosGeralAsync();
+                await hub.Clients.All.SendAsync("ReceiveVoteQtdVotos", qtdVotos);
+
                 return voto is null ? Results.BadRequest("Não pode mais votar nesta categoria") : Results.Created($"/votos/{voto.Dados?.Id}", voto);
             });
             routes.MapGet("/", async (IVotoService service) =>

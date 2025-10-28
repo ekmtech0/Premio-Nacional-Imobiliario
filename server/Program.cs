@@ -10,6 +10,7 @@ using server.Repositories.Interfaces;
 using server.Repositories;
 using server.Helpers.Interfaces;
 using server.Helpers;
+using server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +24,18 @@ builder.Services.AddAuthenticationSuport();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.WithOrigins(
+            "http://localhost:5173",                       // ambiente local (Vite)
+            "https://premio-nacional-imobiliario.netlify.app" // domínio Netlify
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials(); // necessário para SignalR
     });
 });
+
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<SaveChages>();
@@ -42,6 +48,7 @@ builder.Services.AddScoped<IGenerateConfirmationCode, GenerateConfirmationCode>(
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IVotoRepository, VotoRepository>();
 builder.Services.AddScoped<IVotoService, VotoService>();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -58,11 +65,13 @@ app.UseHttpsRedirection();
 app.UseGlobalExceptionHandler();
 
 //app.MapControllers();
-app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
+
 
 app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();
 app.MapCategoriaEndpoints();
 app.MapVotoEndpoints();
+app.MapHub<VotoHub>("/votohub");
 
 app.Run();
