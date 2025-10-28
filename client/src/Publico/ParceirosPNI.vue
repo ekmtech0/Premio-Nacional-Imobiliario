@@ -35,9 +35,13 @@ import { ref } from "vue";
 
 // Lista de imagens dos parceiros
 const logos = ref([
-  '/Img/inh.jpg',
+  '/Img/inh.png',
   '/Img/linear2.png',
-  '/Img/apima.jpg',
+  '/Img/apima.png',
+   '/Img/inh.png',
+  '/Img/linear2.png',
+  '/Img/apima.png',
+
 
 
 ]);

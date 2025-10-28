@@ -117,6 +117,12 @@
       </div>
     </div>
   </div>
+     <StatusModal
+  :visivel="mostrarStatus"
+  :tipo="statusTipo"
+  :mensagem="statusMensagem"
+  @fechar="mostrarStatus = false"
+/>
 </template>
 
 <script setup>
@@ -124,6 +130,8 @@ import { ref, computed, onMounted } from 'vue'
 import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
 import { http } from '@/Request/api'
+import StatusModal from './StatusModal.vue'
+
 
 // Estados
 const categorias = ref([])
@@ -145,6 +153,12 @@ const getCategorias = async () => {
   }
 }
 
+// --- Status Modal ---
+const mostrarStatus = ref(false)
+const statusTipo = ref('')       // 'sucesso' | 'erro'
+const statusMensagem = ref('')
+
+
 // Buscar todos os nomeados
 const getNomeados = async () => {
   try {
@@ -157,15 +171,30 @@ const getNomeados = async () => {
 }
 
 // Nome da categoria pelo Id
-const getCategoriaNome = (id) => {
-  // aceitar vários formatos: id direto, objeto { id, nome }, ou string
-  if (!id && id !== 0) return ''
-  const lookupId = (typeof id === 'object') ? (id.id ?? id) : id
-  // se o id for um objeto categoria completo
-  if (typeof id === 'object' && id.nome) return id.nome
-  const cat = categorias.value.find(c => String(c.id) === String(lookupId))
-  return cat ? cat.nome : ''
+// Nome da categoria pelo Id ou objeto
+const getCategoriaNome = (categoria) => {
+  if (!categoria) return '—'
+
+  // Caso 1: a API retorna um objeto { id, nome }
+  if (typeof categoria === 'object') {
+    // se o campo nome existir dentro do objeto
+    if (categoria.nome) return categoria.nome
+    // se o objeto for algo como { categoriaId: 1 }
+    const catObjId = categoria.id ?? categoria.categoriaId ?? categoria.categoria_id
+    const foundObj = categorias.value.find(c => String(c.id) === String(catObjId))
+    return foundObj ? foundObj.nome : '—'
+  }
+
+  // Caso 2: se vier como ID (número ou string)
+  const found = categorias.value.find(c => String(c.id) === String(categoria))
+  if (found) return found.nome
+
+  // Caso 3: se a API já enviou o nome direto como string
+  if (typeof categoria === 'string' && isNaN(categoria)) return categoria
+
+  return '—'
 }
+
 
 // Modal adicionar/editar
 const abrirAdicionar = () => {
@@ -224,10 +253,21 @@ const salvar = async () => {
       const res = await http.post('/candidatos', payload)
       nomeados.value.push(res.data)
     }
+      statusTipo.value = 'sucesso'
+      statusMensagem.value = editando.value
+  ? 'Nomeado atualizado com sucesso!'
+  : 'Nomeado adicionado com sucesso!'
+mostrarStatus.value = true
+    
     fecharModal()
   } catch (error) {
     console.error('Erro ao salvar nomeado:', error)
+    console.error('Erro ao salvar nomeado:', error)
+  statusTipo.value = 'erro'
+  statusMensagem.value = 'Ocorreu um erro ao salvar o nomeado.'
+  mostrarStatus.value = true
   }
+
 }
 
 // Remover nomeado
