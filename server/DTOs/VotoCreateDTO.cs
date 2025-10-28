@@ -6,7 +6,7 @@ namespace server.DTOs
     public class VotoCreateDTO
     {
         // Eleitor que fez o voto
-        public Guid EleitorId { get; set; }
+        public string BrowserId { get; set; } = null!;
 
         // Candidato que recebeu o voto
         public Guid CandidatoId { get; set; }

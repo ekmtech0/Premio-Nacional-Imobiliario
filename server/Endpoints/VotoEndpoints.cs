@@ -13,7 +13,7 @@ namespace server.Endpoints
             routes.MapPost("/", async (IVotoService service, VotoCreateDTO model) =>
             {
                 var voto = await service.CreateVotoAsync(model);
-                return voto is null ? Results.BadRequest("Não pode mais votar nesta categoria") : Results.Created($"/votos/{voto.Id}", voto);
+                return voto is null ? Results.BadRequest("Não pode mais votar nesta categoria") : Results.Created($"/votos/{voto.Dados?.Id}", voto);
             });
             routes.MapGet("/", async (IVotoService service) =>
             {

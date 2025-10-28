@@ -37,8 +37,6 @@ builder.Services.AddScoped<ICandidatoRepository, CandidatoRepository>();
 builder.Services.AddScoped<ICandidatoService, CandidatoService>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-builder.Services.AddScoped<IEleitorRepository, EleitorRepository>();
-builder.Services.AddScoped<IEleitorService, EleitorService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IGenerateConfirmationCode, GenerateConfirmationCode>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
@@ -65,7 +63,6 @@ app.UseCors("AllowAll");
 app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();
 app.MapCategoriaEndpoints();
-app.MapEleitorEndpoints();
 app.MapVotoEndpoints();
 
 app.Run();

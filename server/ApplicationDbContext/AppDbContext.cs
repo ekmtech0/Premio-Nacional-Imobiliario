@@ -9,7 +9,6 @@ namespace server.ApplicationDbContext
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-        public DbSet<Eleitor> Eleitores => Set<Eleitor>();
         public DbSet<Voto> Votos => Set<Voto>();
         public DbSet<Candidato> Candidatos => Set<Candidato>();
         public DbSet<Categoria> Categorias => Set<Categoria>();
@@ -21,7 +20,7 @@ namespace server.ApplicationDbContext
             // Configurações adicionais podem ser feitas aqui, se necessário
 
             modelBuilder.Entity<Voto>()
-                .HasIndex(v => new { v.EleitorId, v.CategoriaId })
+                .HasIndex(v => new { v.BrowserId, v.CategoriaId })
                 .IsUnique();
         }
     }

@@ -13,7 +13,7 @@ namespace server.Services
             this.repository = repository;
         }
 
-        public async Task<VotoReturnDTO?> CreateVotoAsync(VotoCreateDTO model)
+        public async Task<VotoResult?> CreateVotoAsync(VotoCreateDTO model)
         {
             var voto = await repository.CreateVotoAsync(model);
             return voto;

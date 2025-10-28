@@ -17,6 +17,7 @@
     "lint": "run-s lint:*"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^5.0.1",
     "@vueuse/head": "^2.0.0",
     "@vueuse/motion": "^3.0.3",
     "axios": "^1.12.2",

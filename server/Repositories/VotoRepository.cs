@@ -10,74 +10,76 @@ namespace server.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<VotoReturnDTO?> CreateVotoAsync(VotoCreateDTO model)
-        {
-            try
-            {
-                // Verifica se o eleitor existe
-                var eleitorExists = await _context.Eleitores.AnyAsync(e => e.Id == model.EleitorId);
-                if (!eleitorExists)
+        public async Task<VotoResult> CreateVotoAsync(VotoCreateDTO model)
+        { // Verifica se o navegador já votou nesta 
+
+            //Verifica se o candidato está na categória
+            var exists = await _context.Candidatos.AnyAsync(c =>
+                c.Id == model.CandidatoId &&
+                c.CategoriaId == model.CategoriaId);
+            if (!exists)
+                return new VotoResult
                 {
-                    return null;
-                }
-
-                // Verifica se o candidato existe e pertence à categoria informada
-                var candidatoNaCategoria = await _context.Candidatos
-                    .AnyAsync(c => c.Id == model.CandidatoId && c.CategoriaId == model.CategoriaId);
-
-                if (!candidatoNaCategoria)
-                {
-                    // candidato não existe ou não pertence à categoria
-                    return null;
-                }
-
-                // Verifica se o eleitor já votou nessa categoria
-                var exist = await _context.Votos
-                    .AnyAsync(v => v.EleitorId == model.EleitorId && v.CategoriaId == model.CategoriaId);
-
-                if (exist)
-                {
-                    return null;
-                }
-
-                var voto = new Voto
-                {
-                    EleitorId = model.EleitorId,
-                    CandidatoId = model.CandidatoId,
-                    CategoriaId = model.CategoriaId
+                    Sucesso = false,
+                    Mensagem = "Candidato não pertence à categoria especificada."
                 };
 
-                await _context.Votos.AddAsync(voto);
-                await _context.SaveChangesAsync();
+            var jaVotou = await _context.Votos.AnyAsync(v =>
+                v.BrowserId == model.BrowserId &&
+                v.CategoriaId == model.CategoriaId);
 
-                return await _context.Votos
-                    .Where(v => v.Id == voto.Id)
-                    .Select(v => new VotoReturnDTO
-                    {
-                        Id = v.Id,
-                        Eleitor = v.Eleitor.Nome,
-                        Candidato = v.Candidato.Nome,
-                        Categoria = v.Categoria.Nome
-                    })
-                    .FirstOrDefaultAsync();
-            }
-            catch (Exception ex)
+            if (jaVotou)
             {
-                Console.WriteLine(ex.Message);
-                return null;
+                return new VotoResult
+                {
+                    Sucesso = false,
+                    Mensagem = "Este navegador já votou nesta categoria."
+                };
             }
+
+            await _context.Votos.AddAsync(new Voto
+            {
+                BrowserId = model.BrowserId,
+                CandidatoId = model.CandidatoId,
+                CategoriaId = model.CategoriaId,
+                DataVoto = DateTime.UtcNow
+            });
+
+            await _context.SaveChangesAsync();
+
+            var voto = await _context.Votos
+                .Where(v => v.BrowserId == model.BrowserId &&
+                            v.CandidatoId == model.CandidatoId &&
+                            v.CategoriaId == model.CategoriaId)
+                .Select(v => new VotoReturnDTO
+                {
+                    Id = v.Id,
+                    BrowserId = v.BrowserId,
+                    CandidatoId = v.CandidatoId,
+                    CategoriaId = v.CategoriaId,
+                    DataVoto = v.DataVoto
+                })
+                .FirstOrDefaultAsync();
+            return new VotoResult
+            {
+                Sucesso = true,
+                Mensagem = "Voto registrado com sucesso.",
+                Dados = voto
+            };
         }
 
         public async Task<List<VotoReturnDTO>> GetAllVotosAsync()
         {
             return await _context.Votos
-                    .Select(v => new VotoReturnDTO
-                    {
-                        Id = v.Id,
-                        Eleitor = v.Eleitor.Nome,
-                        Candidato = v.Candidato.Nome,
-                        Categoria = v.Categoria.Nome
-                    }).ToListAsync();
+                .Select(v => new VotoReturnDTO
+                {
+                    Id = v.Id,
+                    BrowserId = v.BrowserId,
+                    CandidatoId = v.CandidatoId,
+                    CategoriaId = v.CategoriaId,
+                    DataVoto = v.DataVoto
+                })
+                .ToListAsync();
         }
 
         public async Task<List<VotoReturnDTO>> GetVotosByCategoriaAsync(Guid id)
@@ -87,11 +89,12 @@ namespace server.Repositories
                 .Select(v => new VotoReturnDTO
                 {
                     Id = v.Id,
-                    Eleitor = v.Eleitor.Nome,
-                    Candidato = v.Candidato.Nome,
-                    Categoria = v.Categoria.Nome
-                }).ToListAsync();
-
+                    BrowserId = v.BrowserId,
+                    CandidatoId = v.CandidatoId,
+                    CategoriaId = v.CategoriaId,
+                    DataVoto = v.DataVoto
+                })
+                .ToListAsync();
         }
 
         public async Task<int> TotalVotosCategoriAsync(Guid id)

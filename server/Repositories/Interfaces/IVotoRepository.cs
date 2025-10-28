@@ -4,7 +4,7 @@ namespace server.Repositories.Interfaces
 {
     public interface IVotoRepository
     {
-        Task<VotoReturnDTO?> CreateVotoAsync(VotoCreateDTO model);
+        Task<VotoResult> CreateVotoAsync(VotoCreateDTO model);
         Task<List<VotoReturnDTO>> GetAllVotosAsync();
         Task<List<VotoReturnDTO>> GetVotosByCategoriaAsync(Guid id);
         Task<int> TotalVotosCategoriAsync(Guid id);
