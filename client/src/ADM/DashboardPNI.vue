@@ -67,7 +67,6 @@
 import { ref } from 'vue'
 import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
-import StatusModal from './StatusModal.vue'
 const Cards = ref([
   { titulo: 'Total de Votos', numero: '1.200' },
   { titulo: 'Categorias', numero: '4' },
