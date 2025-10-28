@@ -68,6 +68,8 @@ import { ref } from 'vue'
 import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
 import * as signalR from '@microsoft/signalr'
+import { onBeforeUnmount } from 'vue';
+import { onMounted } from 'vue';
 const qtdVotos = ref(0);
 const Cards = ref([
   { titulo: 'Total de Votos', numero: qtdVotos },
@@ -75,23 +77,33 @@ const Cards = ref([
   { titulo: 'Nomeados', numero: '15' },
   { titulo: 'Visitantes', numero: '2,5 mil' },
 ])
+let connection; // 👈 define fora dos hooks
 
-const connection = new signalR.HubConnectionBuilder()
-  .withUrl('http://localhost:5092/votohub', {
-    withCredentials: true // 👈 importante se o servidor usa AllowCredentials()
-  })
-  .withAutomaticReconnect()
-  .configureLogging(signalR.LogLevel.Information)
-  .build();
+onMounted(() => {
+  connection = new signalR.HubConnectionBuilder()
+    .withUrl('https://premio-nacional-imobiliario-jfnm.onrender.com/votohub', {
+      withCredentials: true
+    })
+    .withAutomaticReconnect()
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
 
-connection.on("ReceiveVoteQtdVotos", (voto) => {
-  console.log("📩 Mensagem recebida do servidor:", voto);
-  qtdVotos.value = voto;
+  connection.on("ReceiveVoteQtdVotos", (voto) => {
+    console.log("📩 Mensagem recebida do servidor:", voto);
+    qtdVotos.value = voto;
+  });
+
+  connection.start()
+    .then(() => console.log("✅ Conectado ao SignalR!"))
+    .catch(err => console.error("❌ Erro ao conectar:", err));
 });
 
-connection.start()
-  .then(() => console.log("✅ Conectado ao SignalR!"))
-  .catch(err => console.error("❌ Erro ao conectar:", err));
-
+onBeforeUnmount(() => {
+  if (connection) {
+    connection.stop()
+      .then(() => console.log("🛑 Conexão encerrada com SignalR"))
+      .catch(err => console.error("Erro ao encerrar conexão:", err));
+  }
+});
 
 </script>
