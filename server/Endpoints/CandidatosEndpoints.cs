@@ -24,7 +24,7 @@ namespace server.Endpoints
             endpoints.MapPost("/", async (CandidatoDTO model, ICandidatoService service) =>
             {
                 var candidato = await service.CadastrarCandidatoAsync(model);
-                return Results.Created($"/candidatos/{candidato.Nome}", candidato);
+                return Results.Created($"/candidatos/{candidato.Id}", candidato);
             });
             endpoints.MapDelete("/{id:Guid}", async (Guid id, ICandidatoService service) =>
             {
