@@ -8,7 +8,7 @@
 <div class="p-4 max-w-7xl mx-auto">
   <h1 class="font-montserrat font-bold text-2xl md:text-3xl text-azul ">Categorias Oficiais</h1>
   <h2 class="font-open text-sm md:text-base text-gray-900 pb-8">
-    As áreas em que o prémio reconhece a excelência.nw
+    As áreas em que o prémio reconhece a excelência.
   </h2>
 
   <div v-if="Processar" class="flex items-center justify-center pt-20 lg:pt-40 mb-24">
