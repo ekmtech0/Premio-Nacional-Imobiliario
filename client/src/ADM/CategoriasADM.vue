@@ -10,7 +10,11 @@
       <div class="lg:p-4 px-4">
         <!-- Título + Botão -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-10 gap-3">
-          <h2 class="font-bold text-xl text-azul">🗂 Gestão de Categorias</h2>
+          <h2 class="font-bold text-xl text-azul flex">
+            <svg class="w-5 h-5 mt-1 text-azul" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7ZM8 16a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1-5a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z" clip-rule="evenodd"/>
+</svg>
+ Gestão de Categorias</h2>
           <button
             @click="abrirModalAdicionar"
             class="bg-azul text-white px-4 py-2 rounded-xl shadow hover:bg-blue-800 transition text-sm sm:text-base">
@@ -76,6 +80,9 @@
             </div>
           </div>
         </div>
+      </div>
+           <div v-if="Processar" class="flex items-center justify-center pt-20 lg:pt-40 mb-24">
+          <ProcessarPNI/>
       </div>
     </main>
 
@@ -173,6 +180,7 @@ import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
 import { http } from '@/Request/api' // Instância do Axios
 import StatusModal from './StatusModal.vue'
+import ProcessarPNI from '@/componentes/ProcessarPNI.vue'
 
 // Estado principal
 const categorias = ref([])
@@ -182,6 +190,7 @@ const mostrarStatus = ref(false)
 // Modais
 const mostrarModal = ref(false)
 const mostrarModalCandidatos = ref(false)
+const Processar = ref(true)
 
 // Controle de edição
 const editando = ref(false)
@@ -196,6 +205,7 @@ const carregarCategorias = async () => {
   try {
     const response = await http.get('/categorias')
     categorias.value = response.data
+    Processar.value = false
   } catch (error) {
     console.error('Erro ao carregar categorias:', error)
   }

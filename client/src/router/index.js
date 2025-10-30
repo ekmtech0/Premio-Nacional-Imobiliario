@@ -20,6 +20,7 @@ import VotacaoADM from '@/ADM/VotacaoADM.vue'
 import ResultadoADM from '@/ADM/ResultadoADM.vue'
 import UsuarioADM from '@/ADM/UsuarioADM.vue'
 import HeaderADM from '@/ADM/HeaderADM.vue'
+import ProcessarPNI from '@/componentes/ProcessarPNI.vue'
 
 export const routes = [
   {
@@ -130,6 +131,12 @@ export const routes = [
     path: '/HeaderADM',
     name: '/HeaderADM',
     component: HeaderADM
+  },
+
+  {
+    path: '/ProcessaPNI',
+    name: '/ProcessarPNI',
+    component: ProcessarPNI
   }
 ]
 

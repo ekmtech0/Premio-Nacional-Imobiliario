@@ -1,19 +1,22 @@
 <template>
-  <section class="border-t border-b border-gray-200 p-4 lg:py-20" id="nomeado">
-    <div class="max-w-7xl mx-auto pt-12">
+  <section class="p-4 lg:py-20" id="nomeado">
+    <div class="max-w-7xl mx-auto ">
       <h1 class="font-montserrat font-bold text-azul text-2xl">Nomeados</h1>
       <h2 class="font-open text-sm md:text-base text-gray-900 pb-8">
         Conheça os profissionais e empresas que se destacaram.
       </h2>
 
       <!-- FILTRO -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Ver por categoria
-        </label>
+
+     
+     
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Ver por categoria
+            </label>
+      <div class=" lg:grid lg:grid-cols-2">
         <select
           v-model="selectedCategory"
-          class="p-3 border border-gray-300 text-sm rounded-lg w-full focus:ring-2 focus:ring-verde focus:border-verde"
+          class="p-3 border border-gray-300 text-sm rounded-lg w-full focus:ring-2 focus:ring-verde focus:border-verde "
         >
           <option value="">Todos os nomeados</option>
           <option
@@ -25,12 +28,13 @@
           </option>
         </select>
       </div>
+      
 
       <!-- GRID / SCROLL -->
       <div
         ref="scrollContainer"
         class="flex gap-4 overflow-x-auto hide-scrollbar 
-          md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
+          md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 
           md:overflow-visible pt-4"
       >
         <div
@@ -57,10 +61,10 @@
           >
             {{ Nomeado.description }}
           </p>
-
+                   
           <p
             class="font-open text-sm md:text-base text-gray-700 text-center pt-4"
-          >
+          >  
             <span class="font-bold">Categoria:</span> {{ Nomeado.categoria }}
           </p>
 
@@ -102,8 +106,14 @@
                 <span v-else>Votar</span>
               </template>
             </button>
+            
           </div>
         </div>
+        
+      </div>
+      
+       <div v-if="Processar" class="flex items-center justify-center pt-20 lg:pt-40">
+          <ProcessarPNI/>
       </div>
 
       <!-- BULLETS MOBILE -->
@@ -140,16 +150,22 @@
 import { ref, computed, nextTick, watch, onMounted, onBeforeUnmount } from "vue";
 import { http } from "@/Request/api";
 import { getBrowserId } from "@/utils/getBrowserId";
+import ProcessarPNI from "@/componentes/ProcessarPNI.vue";
 
 const Categorias = ref([]);
 const Nomeados = ref([]);
 const selectedCategory = ref("");
 const scrollContainer = ref(null);
 const activeIndex = ref(0);
+const Processar = ref(true);
 
 const browserId = ref(null);
 const votedSet = ref(new Set());
 const loadingMap = ref({});
+
+
+
+
 
 const snackbar = ref({ visible: false, message: "", type: "success" });
 let snackbarTimer = null;
@@ -158,9 +174,10 @@ const getNomeados = async () => {
   try {
     const response = await http.get("/candidatos");
     Nomeados.value = Array.isArray(response.data) ? response.data : [];
-    console.log("✅ Nomeados carregados:", Nomeados.value);
+    console.log(" Nomeados carregados:", Nomeados.value);
+    Processar.value= false
   } catch (error) {
-    console.error("❌ Erro ao buscar nomeados:", error);
+    console.error(" Erro ao buscar nomeados:", error);
   }
 };
 
@@ -168,9 +185,9 @@ const CarregarCategorias = async () => {
   try {
     const response = await http.get("/categorias/no-user");
     Categorias.value = Array.isArray(response.data) ? response.data : [];
-    console.log("📂 Categorias carregadas:", Categorias.value);
+    console.log(" Categorias carregadas:", Categorias.value);
   } catch (error) {
-    console.error("❌ Erro ao buscar categorias:", error);
+    console.error(" Erro ao buscar categorias:", error);
   }
 };
 
@@ -200,17 +217,17 @@ const Votar = async (cdId, ctId) => {
   loadingMap.value = { ...loadingMap.value, [cdId]: true };
 
   const votoDTO = { browserId: browserId.value, candidatoId: cdId, categoriaId: ctId };
-  console.log("📨 Enviando voto:", votoDTO);
+  console.log(" Enviando voto:", votoDTO);
 
   try {
     const response = await http.post("/votos", votoDTO);
-    console.log("✅ Voto registrado com sucesso:", response.data);
+    console.log(" Voto registrado com sucesso:", response.data);
 
     votedSet.value.add(cdId);
     saveVotedToStorage(browserId.value, votedSet.value);
     showSnackbar("Voto realizado com sucesso!", "success");
   } catch (error) {
-    console.error("❌ Erro ao registrar voto:", error);
+    console.error(" Erro ao registrar voto:", error);
     const msg = error?.response?.data?.message ?? "Erro ao registrar voto.";
     showSnackbar(msg, "error");
   } finally {
