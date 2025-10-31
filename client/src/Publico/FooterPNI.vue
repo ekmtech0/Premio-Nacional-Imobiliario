@@ -1,6 +1,6 @@
 <template>
   <section class="w-full bg-gray-200 border-t border-gray-300 py-8 md:py-12">
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-40">
 
       <!-- 2 Colunas no desktop / 1 coluna no mobile -->
       <div class="flex flex-col items-center text-center gap-10 

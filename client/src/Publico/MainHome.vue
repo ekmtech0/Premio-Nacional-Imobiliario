@@ -44,14 +44,14 @@ onUnmounted(() => {
 </script>
 <template>
      <NavBar/>
-<section class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden" id="inicio">
+<section class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden h-[700px]  lg:h-[800px] lg:px-40" id="inicio">
 
 
 <!--  IMAGEM PRINCIPAL DO SLIDE -->
 <img
   :src="imagens[indexAtual]"
   alt="Slide de Imagens"
-  class="slide-transition absolute inset-0 w-full h-full object-cover"
+  class="slide-transition absolute inset-0 w-full h-[900px] object-cover lg:"
 />
 
 <!--  INDICADORES (bolinhas) -->
@@ -67,9 +67,6 @@ onUnmounted(() => {
   ></span>
 </div>
 
- 
-
-
   <!-- Camada escura -->
   <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
 
@@ -79,7 +76,7 @@ onUnmounted(() => {
   <div class="max-w-3xl text-center lg:text-left">
     <!-- TÍTULO -->
     <h1
-      class="fade-up font-bold font-montserrat text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md"
+      class="fade-up font-bold font-montserrat text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md z-50"
     >
       RECONHECENDO OS MELHORES DO MERCADO IMOBILIÁRIO EM ANGOLA!
     </h1>
@@ -111,16 +108,43 @@ onUnmounted(() => {
 </div>
 </section>
 
-<SobrePremio/>
- 
 
+  
+<section class="w-full border-y border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-40 ">
+     <SobrePremio/>
+  </div>
+</section>
+
+
+ 
+  <section class="w-full  border-y border-gray-200 ">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-40">
   <NomeadosPremio/>
- <ResultadosAtuais/>
+  </div>
+</section>
+
+
+ <section class="w-full  border-y border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-40 ">
+       <ResultadosAtuais/>
+  </div>
+</section>
+
+ <section class="w-full  border-y border-gray-200">
+  <div class=" ">
  <ParceirosPNI/>
- <FooterPNI/>
+  </div>
+</section>
+
+ <section class="w-full ">
+  <div class="">
+  <FooterPNI/>
+  </div>
+</section>
 </template>
 
-<!-- ✅ Animação CSS -->
+<!-- Animação CSS -->
 <style scoped>
 @keyframes fadeUp {
   from {

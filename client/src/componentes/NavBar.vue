@@ -1,8 +1,8 @@
 <template>
-  <header class="bg-azul text-white shadow-xl fixed top-0 left-0 w-full z-50">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 lg:px-8 h-20">
+  <header class="bg-azul text-white shadow-xl fixed top-0 left-0 w-full z-50 ">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 lg:px-8 h-20 ">
       <!-- LOGO -->
-      <img src="" alt="Logotipo do Prémio Nacional Imobiliário" class="h-12 w-auto" />
+      <img src="" alt="PNI" class="h-12 w-auto "/>
 
       <!-- BOTÃO MOBILE -->
       <button

@@ -8,7 +8,13 @@
         <!-- Header + ações -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-8 gap-4">
           <div>
-            <h2 class="font-bold text-xl text-azul">🧑‍⚖️ Gestão dos Nomeados</h2>
+            <h2 class="font-bold text-xl text-azul flex">
+              <svg class="w-5 h-5 m-1 text-azul " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7141 15h4.268c.4043 0 .732-.3838.732-.8571V3.85714c0-.47338-.3277-.85714-.732-.85714H6.71411c-.55228 0-1 .44772-1 1v4m10.99999 7v-3h3v3h-3Zm-3 6H6.71411c-.55228 0-1-.4477-1-1 0-1.6569 1.34315-3 3-3h2.99999c1.6569 0 3 1.3431 3 3 0 .5523-.4477 1-1 1Zm-1-9.5c0 1.3807-1.1193 2.5-2.5 2.5s-2.49999-1.1193-2.49999-2.5S8.8334 9 10.2141 9s2.5 1.1193 2.5 2.5Z"/>
+</svg>
+
+
+ Gestão dos Nomeados</h2>
             <p class="mt-1 text-sm text-gray-500">Gerir nomeados por categoria</p>
           </div>
 
@@ -44,7 +50,9 @@
                 <th class="px-6 py-3 text-right"></th>
               </tr>
             </thead>
+
             <tbody>
+        
               <tr v-for="(n, index) in listaFiltrada" :key="n.id" class="border-t hover:bg-gray-50">
                 <td class="px-6 py-4">
                   <img :src="n.photoUrl || ''" class="w-12 h-12 rounded-full object-cover border" />
@@ -60,7 +68,8 @@
               </tr>
             </tbody>
           </table>
-
+      
+        
           <!-- Mobile Cards -->
           <div class="md:hidden divide-y">
             <div v-for="(n, index) in listaFiltrada" :key="n.id" class="p-4">
@@ -73,19 +82,25 @@
                   <p class="text-xs text-gray-500"><strong>Votos:</strong> {{ n.votos || 0 }}</p>
                 </div>
               </div>
-
+                             
               <div class="flex justify-end gap-4 mt-3">
                 <button @click="abrirEditar(index)" class="text-yellow-600 text-sm">✏️ Editar</button>
                 <button @click="removerNomeado(index)" class="text-red-600 text-sm">🗑️ Remover</button>
               </div>
             </div>
           </div>
+
+        
         </div>
+            <div v-if="Processar" class="flex items-center justify-center pt-20 lg:pt-40 mb-24">
+          <ProcessarPNI/>
+      </div>
       </div>
     </main>
 
     <!-- Modal -->
     <div v-if="mostrarModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+       
       <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <h3 class="text-lg font-bold text-azul">
           {{ editando ? '✏️ Editar Nomeado' : '➕ Adicionar Nomeado' }}
@@ -114,9 +129,13 @@
           <button @click="fecharModal" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm">Cancelar</button>
           <button @click="salvar" class="px-4 py-2 bg-azul text-white rounded-lg hover:bg-blue-800 transition text-sm">{{ editando ? 'Guardar Alterações' : 'Salvar' }}</button>
         </div>
+        
       </div>
+    
     </div>
+      
   </div>
+  
      <StatusModal
   :visivel="mostrarStatus"
   :tipo="statusTipo"
@@ -131,6 +150,7 @@ import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
 import { http } from '@/Request/api'
 import StatusModal from './StatusModal.vue'
+import ProcessarPNI from '@/componentes/ProcessarPNI.vue'
 
 
 // Estados
@@ -142,6 +162,7 @@ const editando = ref(false)
 const indexEdit = ref(null)
 const previewFoto = ref(null)
 const form = ref({ nome: '', categoriaId: '', description: '', votos: 0, photoUrl: '' })
+const Processar= ref(true)
 
 // Buscar categorias
 const getCategorias = async () => {
@@ -165,6 +186,7 @@ const getNomeados = async () => {
     const res = await http.get('/candidatos')
     console.log(res.data)
     nomeados.value = res.data
+    Processar.value = false
   } catch (error) {
     console.error('Erro ao buscar nomeados:', error)
   }
