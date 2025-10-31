@@ -10,5 +10,6 @@ namespace server.Repositories.Interfaces
         public Task<CandidatoReturnDTO?> AddCadidatoAsync(CandidatoDTO model);
         public Task<List<CandidatoReturnDTO>> GetAllCandiditatosAsync();
         public Task<CandidatoReturnDTO?> GetCandidatoById(Guid id);
+        public Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync();
     }
 }

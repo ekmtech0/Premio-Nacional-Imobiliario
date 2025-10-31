@@ -31,6 +31,10 @@ namespace server.Endpoints
                 var deleted = await service.DeleteCandidatoAsycnc(id);
                 return deleted ? Results.NoContent() : Results.NotFound();
             });
+            endpoints.MapGet("/ListaDosMaisVotados", async (ICandidatoService service) =>
+            {
+                return Results.Ok(await service.GetListaDosMaisVotadosDTOAsync());
+            });
         }
     }
 }

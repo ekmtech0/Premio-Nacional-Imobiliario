@@ -57,5 +57,9 @@ namespace server.Services
         {
             return await _repositoy.GetCategoriaWithNoUserByIdAsync();
         }
+        public async Task<List<VotosPorCategoria>> GetVotosPorCategoriasAsync()
+        {
+            return await _repositoy.GetVotosPorCategoriasAsync();
+        }
     }
 }

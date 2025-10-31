@@ -69,5 +69,9 @@ namespace server.Services
                 Categoria = candidato.Categoria.Nome
             };
         }
+        public async Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync()
+        {
+            return await repository.GetListaDosMaisVotadosDTOAsync(); 
+        }
     }
 }

@@ -80,7 +80,7 @@
                   <tr v-for="(n, idx) in ordenadosPorVotos" :key="n.nome" class="border-t">
                     <td class="px-4 py-3 text-sm text-gray-700">{{ idx + 1 }}</td>
                     <td class="px-4 py-3 text-sm text-gray-800">{{ n.nome }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-800">{{ n.votos }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-800">{{ n.totalVotos }}</td>
                     <td class="px-4 py-3 text-sm text-gray-800">{{ formatPercent(n.percent) }}</td>
                   </tr>
                 </tbody>
@@ -92,7 +92,7 @@
               <div v-for="(n, idx) in ordenadosPorVotos" :key="n.nome" class="p-3 border rounded-lg flex items-center justify-between">
                 <div>
                   <div class="text-sm font-semibold text-gray-800">{{ idx + 1 }}. {{ n.nome }}</div>
-                  <div class="text-xs text-gray-500 mt-1">Votos: <span class="text-gray-800">{{ n.votos }}</span></div>
+                  <div class="text-xs text-gray-500 mt-1">Votos: <span class="text-gray-800">{{ n.totalVotos }}</span></div>
                 </div>
                 <div class="text-right">
                   <div class="text-sm font-bold text-azul">{{ formatPercent(n.percent) }}</div>
@@ -123,18 +123,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import SideBar from './SideBar.vue'
 import HeaderADM from './HeaderADM.vue'
+import { http } from '@/Request/api'
 
 /* ---------- Dados exemplo (substituir por API se necessário) ---------- */
-const nomeados = ref([
-  { nome: 'Victor Makuka', votos: 320 },
-  { nome: 'SG Design', votos: 210 },
-  { nome: 'EKM Tech Solutions', votos: 160 },
-  { nome: 'Linear Comunicação', votos: 90 },
-  { nome: 'Outra Empresa', votos: 20 }
-])
+const nomeados = ref([])
 
 const totalInvalidVotes = ref(15) // exemplo
 const votacaoAberta = ref(true)
@@ -145,15 +140,33 @@ const sliceColors = [
 ]
 
 /* ---------- Totais e percentagens ---------- */
+// helper to read the vote count supporting both new `totalVotos` and legacy `votos`
+const getVoteCount = (n) => Number(n?.totalVotos ?? n?.votos ?? 0)
+
 const totalValidVotes = computed(() => {
-  return nomeados.value.reduce((s, n) => s + (n.votos || 0), 0)
+  return nomeados.value.reduce((s, n) => s + getVoteCount(n), 0)
 })
 
 const ordenadosPorVotos = computed(() => {
   const total = totalValidVotes.value || 1
   return [...nomeados.value]
-    .sort((a, b) => b.votos - a.votos)
-    .map(n => ({ ...n, percent: (n.votos / total) * 100 }))
+    .map(n => ({ ...n, _voteCount: getVoteCount(n) }))
+    .sort((a, b) => b._voteCount - a._voteCount)
+    .map(n => ({ ...n, percent: (n._voteCount / total) * 100, totalVotos: n._voteCount }))
+})
+
+async function GetListaMaisVotados(){
+  try{
+    let resp = await http.get("/candidatos/ListaDosMaisVotados")
+    nomeados.value = resp.data
+  }
+  catch(ex){
+    console.log(ex)
+  }
+}
+
+onMounted(async ()=>{
+  let res = await GetListaMaisVotados()
 })
 
 /* ---------- SVG Pie slices (path strings) ---------- */
@@ -162,12 +175,13 @@ const pieSlices = computed(() => {
   const total = totalValidVotes.value || 1
   let startAngle = -90
   return ordenadosPorVotos.value.map((n, i) => {
-    const sliceAngle = (n.votos / total) * 360
+    const votes = Number(n.totalVotos ?? n._voteCount ?? 0)
+    const sliceAngle = (votes / total) * 360
     const endAngle = startAngle + sliceAngle
     const path = describeArcPath(100, 100, 90, startAngle, endAngle)
     const color = sliceColors[i % sliceColors.length]
     startAngle = endAngle
-    return { path, color, value: n.votos, label: n.nome, percent: n.percent }
+    return { path, color, value: votes, label: n.nome, percent: n.percent }
   })
 })
 
@@ -193,8 +207,8 @@ const voteStatusClass = computed(() => votacaoAberta.value ? 'bg-green-100 text-
 /* ---------- Ações: export CSV / export PDF (print-friendly) ---------- */
 function exportCSV() {
   // CSV with headers: Nome,Votos,Percentagem
-  const rows = [['Nome', 'Votos', 'Percentagem']]
-  ordenadosPorVotos.value.forEach(n => rows.push([n.nome, n.votos, formatPercent(n.percent)]))
+  const rows = [['Nome', 'totalVotos', 'Percentagem']]
+  ordenadosPorVotos.value.forEach(n => rows.push([n.nome, Number(n.totalVotos ?? n._voteCount ?? 0), formatPercent(n.percent)]))
   // invalid votes row
   rows.push(['Votos inválidos', totalInvalidVotes.value, ''])
   const csv = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n')
@@ -202,7 +216,7 @@ function exportCSV() {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `votos_${new Date().toISOString().slice(0,10)}.csv`
+  a.download = `totalVotos${new Date().toISOString().slice(0,10)}.csv`
   a.click()
   URL.revokeObjectURL(url)
 }
@@ -223,7 +237,8 @@ function exportPDF() {
   html += `<p>Total votos válidos: ${totalValidVotes.value} — Votos inválidos: ${totalInvalidVotes.value}</p>`
   html += `<table><thead><tr><th>#</th><th>Nome</th><th>Votos</th><th>Percentagem</th></tr></thead><tbody>`
   ordenadosPorVotos.value.forEach((n, i) => {
-    html += `<tr><td>${i+1}</td><td>${n.nome}</td><td>${n.votos}</td><td>${formatPercent(n.percent)}</td></tr>`
+    const votes = Number(n.totalVotos ?? n._voteCount ?? 0)
+    html += `<tr><td>${i+1}</td><td>${n.nome}</td><td>${votes}</td><td>${formatPercent(n.percent)}</td></tr>`
   })
   html += `</tbody></table></body></html>`
   printWindow.document.write(html)
@@ -238,7 +253,7 @@ function toggleVotacao() {
 }
 function resetVotos() {
   if (!confirm('Resetar todos os votos para 0?')) return
-  nomeados.value = nomeados.value.map(n => ({ ...n, votos: 0 }))
+  nomeados.value = nomeados.value.map(n => ({ ...n, totalVotos: 0 }))
   totalInvalidVotes.value = 0
 }
 </script>
@@ -247,6 +262,7 @@ function resetVotos() {
 /* small helper for truncation */
 .line-clamp-3 {
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;

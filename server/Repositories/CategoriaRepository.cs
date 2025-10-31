@@ -105,5 +105,17 @@ namespace server.Repositories
                     QtdCandidatos = c.Candidatos.Count()
                 }).ToListAsync();
         }
+
+        public async Task<List<VotosPorCategoria>> GetVotosPorCategoriasAsync()
+        {
+            return await context.Categorias
+                .Select(c => new VotosPorCategoria
+                {
+                    CategoriaId = c.Id,
+                    Categoria = c.Nome,
+                    Description = c.Description,
+                    QtdVotos = c.Candidatos.Sum(ca => ca.Votos.Count)
+                }).ToListAsync();
+        }
     }
 }

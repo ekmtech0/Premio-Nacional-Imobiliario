@@ -52,7 +52,8 @@ namespace server.Repositories
                     Description = c.Description,
                     PhotoUrl = c.PhotoUrl,
                     Categoria = c.Categoria.Nome,
-                    CategoriaId = c.Categoria.Id
+                    CategoriaId = c.Categoria.Id,
+                    Votos = c.Votos.Count
                 })
                 .ToListAsync();
         }
@@ -61,6 +62,7 @@ namespace server.Repositories
         {
             return await _context.Candidatos
                 .Include(c => c.Categoria)
+                .Include(c => c.Votos)
                 .Select(c => new CandidatoReturnDTO
                 {
                     Id = c.Id,
@@ -68,9 +70,23 @@ namespace server.Repositories
                     Categoria = c.Categoria.Nome,
                     Description = c.Description,
                     PhotoUrl = c.PhotoUrl,
-                    CategoriaId = c.Categoria.Id
+                    CategoriaId = c.Categoria.Id,
+                    Votos = c.Votos.Count
                 })
                 .SingleOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync()
+        {
+            return await _context.Candidatos
+                .Include(v => v.Votos)
+                .Select(c => new ListaDosMaisVotadosDTO
+                {
+                    Nome = c.Nome,
+                    TotalVotos = c.Votos.Count
+                })
+                .OrderByDescending(c => c.TotalVotos)
+                .ToListAsync();
         }
     }
 }

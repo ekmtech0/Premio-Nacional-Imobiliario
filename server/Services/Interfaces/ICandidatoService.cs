@@ -12,5 +12,6 @@ namespace server.Services.Interfaces
         Task<CandidatoReturnDTO?> GetCandidatoByIdAsync(Guid id);
 
         Task<CandidatoReturnDTO?> UpdateCandidatoAsync(Guid id, CandidatoDTO model);
+        Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync();
     }
 }

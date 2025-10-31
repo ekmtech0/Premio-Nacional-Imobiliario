@@ -40,6 +40,11 @@ namespace server.Endpoints
                 var total = await service.TotalVotosGeralAsync();
                 return Results.Ok(total);
             });
+            routes.MapGet("/total/categorias", async (ICategoriaService service) =>
+            {
+                var votosPorCategorias = await service.GetVotosPorCategoriasAsync();
+                return Results.Ok(votosPorCategorias);
+            });
         }
     }
 }

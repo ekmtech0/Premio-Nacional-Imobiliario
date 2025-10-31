@@ -16,5 +16,6 @@ namespace server.Services.Interfaces
         Task<CategoriaDTO?> UpdateCategoriaAsync(Guid id, CategoriaCreateDTO model);
 
         Task<List<CategoriaWithNoUserDTO>> GetCategoriaWithNoAsync();
+        Task<List<VotosPorCategoria>> GetVotosPorCategoriasAsync();
     }
 }

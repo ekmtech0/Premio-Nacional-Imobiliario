@@ -10,6 +10,5 @@ namespace server.Repositories.Interfaces
         Task<int> TotalVotosCategoriAsync(Guid id);
 
         Task<int> TotalVotosGeralAsync();
-
     }
 }

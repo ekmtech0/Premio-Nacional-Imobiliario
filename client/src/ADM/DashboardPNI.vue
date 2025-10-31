@@ -70,6 +70,7 @@ import HeaderADM from './HeaderADM.vue'
 import * as signalR from '@microsoft/signalr'
 import { onBeforeUnmount } from 'vue';
 import { onMounted } from 'vue';
+import { http } from '@/Request/api';
 const qtdVotos = ref(0);
 const Cards = ref([
   { titulo: 'Total de Votos', numero: qtdVotos },
@@ -79,7 +80,18 @@ const Cards = ref([
 ])
 let connection; // 👈 define fora dos hooks
 
-onMounted(() => {
+const getTotalVotos = async ()=>{
+  try{
+      let resp = await http.get("votos/total")
+      qtdVotos.value = resp.data
+  }
+  catch(ex){
+      console.error(ex);
+  }
+}
+
+onMounted(async () => {
+  await getTotalVotos()
   connection = new signalR.HubConnectionBuilder()
     .withUrl('https://premio-nacional-imobiliario-jfnm.onrender.com/votohub', {
       withCredentials: true

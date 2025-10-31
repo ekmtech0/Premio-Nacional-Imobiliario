@@ -15,6 +15,8 @@ namespace server.Repositories.Interfaces
 
         Task<CategoriaDTO?> UpdateCategoriaAsync(Guid id, CategoriaCreateDTO model);
 
+        Task<List<VotosPorCategoria>> GetVotosPorCategoriasAsync();
+
         Task<List<CategoriaWithNoUserDTO>> GetCategoriaWithNoUserByIdAsync();
     }
 }
