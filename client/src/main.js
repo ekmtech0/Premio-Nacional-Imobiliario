@@ -5,6 +5,8 @@ import './main.css'
 import { createHead } from '@vueuse/head'
 import { MotionPlugin } from '@vueuse/motion'
 import { VueReCaptcha } from 'vue-recaptcha-v3';
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 // Criar o gerenciador de metadados (SEO)
 const head = createHead()
@@ -29,3 +31,11 @@ export const createApp = ViteSSG(
     }
   }
 )
+
+// Inicializa o AOS
+AOS.init({
+  duration: 800, // duração da animação em ms
+  easing: 'ease-in-out',
+  once: true, // anima apenas na primeira vez
+  offset: 100, // distância antes de começar a animação
+})

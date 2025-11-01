@@ -1,8 +1,8 @@
 <template>
   <section class="p-4 lg:py-20" id="nomeado">
     <div class="max-w-7xl mx-auto ">
-      <h1 class="font-montserrat font-bold text-azul text-2xl">Nomeados</h1>
-      <h2 class="font-open text-sm md:text-base text-gray-900 pb-8">
+      <h1 data-aos="fade-up" class="font-montserrat font-bold text-azul text-2xl">Nomeados</h1>
+      <h2 data-aos="fade-right" class="font-open text-sm md:text-base text-gray-900 pb-8">
         Conheça os profissionais e empresas que se destacaram.
       </h2>
 
@@ -10,10 +10,10 @@
 
      
      
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label data-aos="fade-left" class="block text-sm font-medium text-gray-700 mb-2">
               Ver por categoria
             </label>
-      <div class=" lg:grid lg:grid-cols-2">
+      <div data-aos="fade-right" class=" lg:grid lg:grid-cols-2">
         <select
           v-model="selectedCategory"
           class="p-3 border border-gray-300 text-sm rounded-lg w-full focus:ring-2 focus:ring-verde focus:border-verde "
@@ -32,6 +32,7 @@
 
       <!-- GRID / SCROLL -->
       <div
+      data-aos="fade-left"
         ref="scrollContainer"
         class="flex gap-4 overflow-x-auto hide-scrollbar 
           md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 

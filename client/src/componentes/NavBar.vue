@@ -25,9 +25,8 @@
         <a href="/#sobre" class="hover:text-gray-200 transition-colors">Sobre</a>
         <a @click="irPara('/categoriaPremio')" class="hover:text-gray-200 transition-colors cursor-pointer">Categorias</a>
         <a href="/#nomeado" class="hover:text-gray-200 transition-colors">Nomeados</a>
-        <a href="/#votacao" class="hover:text-gray-200 transition-colors">Votação</a>
         <a @click="irPara('/JuriSelecao')" class="hover:text-gray-200 transition-colors cursor-pointer">Júri</a>
-        <a href="/resultado" class="hover:text-gray-200 transition-colors">Resultados</a>
+        <a href="/#resultado" class="hover:text-gray-200 transition-colors">Resultados</a>
         <a href="/#contato" class="hover:text-gray-200 transition-colors">Contactos</a>
       </nav>
     </div>
@@ -46,11 +45,10 @@
         class="lg:hidden flex flex-col items-center space-y-4 py-6 bg-azul text-white text-lg font-medium border-t border-white/20 absolute top-20 left-0 w-full z-50"
         @click.stop
       >
-        <RouterLink @click.native="fecharMenu" to="/">Início</RouterLink>
+        <RouterLink to="/">Início</RouterLink>
         <RouterLink @click.native="fecharMenu" to="/#sobre">Sobre</RouterLink>
         <RouterLink @click.native="fecharMenu" to="/categoriaPremio">Categorias</RouterLink>
-        <RouterLink @click.native="fecharMenu" to="/#nomeado">Nomeados</RouterLink>
-        <RouterLink @click.native="fecharMenu" to="/#votacao">Votação</RouterLink>
+        <RouterLink @click="fecharMenu" to="/#nomeado">Nomeados</RouterLink>
         <RouterLink @click.native="fecharMenu" to="/JuriSelecao">Júri</RouterLink>
         <RouterLink @click.native="fecharMenu" to="/resultado">Resultados</RouterLink>
         <RouterLink @click.native="fecharMenu" to="/#contato">Contactos</RouterLink>

@@ -2,12 +2,12 @@
   <section class="w-full mb-12 py-10">
     <div class="max-w-7xl mx-auto px-6 text-center">
       <!-- Título -->
-      <h2 class="text-2xl md:text-3xl font-bold text-azul mb-8">
+      <h2 data-aos="fade-up" class="text-2xl md:text-3xl font-bold text-azul mb-8">
         Parceiros / Apoios
       </h2>
 
       <!-- Carrossel de Logos -->
-      <div class="overflow-hidden relative">
+      <div data-aos="fade-left" class="overflow-hidden relative">
         <div
           class="flex items-center gap-12 animate-scroll"
           :style="{ animationDuration: `${velocidade}s` }"

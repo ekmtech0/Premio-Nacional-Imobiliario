@@ -5,19 +5,18 @@
  <!-- Cabeçalho -->
 
 
-<div class="p-4 max-w-7xl mx-auto">
-  <h1 class="font-montserrat font-bold text-2xl md:text-3xl text-azul ">Categorias Oficiais</h1>
-  <h2 class="font-open text-sm md:text-base text-gray-900 pb-8">
+<div class="p-4 max-w-7xl mx-auto lg:mt-24 lg:mb-32">
+  <h1 data-aos="fade-up" class="font-montserrat font-bold text-azul text-2xl">Categorias Oficiais</h1>
+  <h2 data-aos="fade-right" class="font-open text-sm md:text-base text-gray-900 pb-8">
     As áreas em que o prémio reconhece a excelência.
   </h2>
 
-  <div v-if="Processar" class="flex items-center justify-center pt-20 lg:pt-40 mb-24">
+  <div data-aos="fade-left" v-if="Processar" class="flex items-center justify-center pt-20 lg:pt-40 mb-24">
           <ProcessarPNI/>
       </div>
  <!-- Container dos cards -->
  <div 
   class="flex gap-4 overflow-x-auto md:flex-wrap md:overflow-x-visible hide-scrollbar">
-  
   <!-- Card -->
  
       <div  class="flex gap-4 overflow-x-auto md:flex-wrap md:overflow-x-visible hide-scrollbar" ref="carousel"  style="scroll-snap-type: x mandatory;" >
@@ -25,13 +24,13 @@
   <!-- Card -->
   <div
     v-for="(categoria, index) in Categorias"
-    :key="index.id"
+    :key="index.id" 
     class="bg-gray-100 min-w-[250px] max-w-xs flex-shrink-0 p-4 sm:p-6 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer flex flex-col justify-between md:flex-1 md:min-w-[280px] md:max-w-[320px] lg:min-w-[300px] lg:max-w-sm lg:p-8"
     style="scroll-snap-align: start;"
   >
     <div>
      <!-- Titulo da Categoria -->
-     <h2 class="text-azul font-open font-bold text-lg md:text-xl">
+     <h2  class="text-azul font-open font-bold text-lg md:text-xl" >
         {{ categoria.nome }}
      </h2>
      <!-- Descrição -->
@@ -55,7 +54,7 @@
 
     <!-- Botão -->
     <div class="pt-6 flex">
-     <button
+     <button @click="VerCategorias()"
       class="bg-verde w-full text-white font-montserrat font-semibold p-2 md:p-3 rounded-lg transition-colors duration-200 hover:bg-green-700 active:scale-95"
      >
       Ver
@@ -87,10 +86,14 @@ import NavBar from '@/componentes/NavBar.vue';
 import  FooterPNI  from '@/Publico/FooterPNI.vue'
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { http } from '@/Request/api' // Instância do Axios
- import ProcessarPNI from '@/componentes/ProcessarPNI.vue';
+import ProcessarPNI from '@/componentes/ProcessarPNI.vue';
+
+const emit = defineEmits([ 'CategoriaSelecionado']);
+
 
 const Categorias = ref([])
 const Processar = ref(true)
+// const Categoria = ref()
 
 // Buscar categorias da API
 const carregarCategorias = async () => {
@@ -115,6 +118,7 @@ function scrollToCard(index) {
    activeIndex.value = index
   }
 }
+
 
 function updateActive() {
   const el = carousel.value
@@ -159,6 +163,10 @@ onBeforeUnmount(() => {
    carousel.value.removeEventListener('scroll', onScroll)
   }
 })
+
+function VerCategorias() {
+  emit('CategoriaSelecionado', Categorias([]))
+}
 </script>
 
 <style scoped>

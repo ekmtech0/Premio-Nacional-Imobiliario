@@ -6,6 +6,10 @@ import NomeadosPremio from './NomeadosPremio.vue'
 import ResultadosAtuais from './ResultadosAtuais.vue'
 import ParceirosPNI from './ParceirosPNI.vue'
 import FooterPNI from './FooterPNI.vue'
+import { useRouter } from 'vue-router'
+
+
+const router = useRouter()
 
 useHead({
   title: 'Prémio Nacional Imobiliário 2025',
@@ -41,6 +45,11 @@ onUnmounted(() => {
   clearInterval(intervalo)
 })
 
+function irPara(path) {
+  router.push(path)
+
+}
+
 </script>
 <template>
      <NavBar/>
@@ -75,34 +84,34 @@ onUnmounted(() => {
 >
   <div class="max-w-3xl text-center lg:text-left">
     <!-- TÍTULO -->
-    <h1
-      class="fade-up font-bold font-montserrat text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md z-50"
+    <h1 data-aos="fade-right"
+      class=" font-bold font-montserrat text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md z-50"
     >
       RECONHECENDO OS MELHORES DO MERCADO IMOBILIÁRIO EM ANGOLA!
     </h1>
 
     <!-- SUBTÍTULO -->
-    <h2
-      class="fade-up-delay mt-4 text-base sm:text-lg lg:text-2xl font-light drop-shadow-md max-w-2xl"
+    <h2 data-aos="fade-left"
+      class=" mt-4 text-base sm:text-lg lg:text-2xl font-light drop-shadow-md max-w-2xl"
     >
       Prémio Nacional Imobiliário 2025 — celebrando a excelência em arquitetura,
       serviço público, mediação e sustentabilidade.
     </h2>
 
     <!-- BOTÕES -->
-    <div
-      class="fade-up-delay-2 flex flex-col sm:flex-row items-center lg:items-start gap-4 mt-8"
+    <div data-aos="fade-up"
+      class=" flex flex-col sm:flex-row items-center lg:items-start gap-4 mt-8"
     >
-      <button
+      <a href="/#nomeado"
         class="bg-verde hover:bg-green-600 px-6 py-3 rounded-lg font-bold font-open transition-transform duration-200 hover:scale-105"
       >
         Votar no Favorito
-      </button>
-      <button
-        class="border border-white hover:bg-white hover:text-azul px-6 py-3 rounded-lg font-bold font-open transition-transform duration-200 hover:scale-105"
+  </a>
+      <a @click="irPara('/categoriaPremio')"
+        class="border border-white hover:bg-white hover:text-azul px-6 py-3 rounded-lg font-bold font-open transition-transform duration-200 hover:scale-105 cursor-pointer"
       >
-        Ver Nomeado
-      </button>
+        Ver Categorias
+</a>
     </div>
   </div>
 </div>
