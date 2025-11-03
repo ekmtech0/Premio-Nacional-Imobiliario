@@ -25,16 +25,23 @@ namespace server.Endpoints
             {
                 var candidato = await service.CadastrarCandidatoAsync(model);
                 return Results.Created($"/candidatos/{candidato.Id}", candidato);
-            });
+            }).RequireAuthorization();
             endpoints.MapDelete("/{id:Guid}", async (Guid id, ICandidatoService service) =>
             {
                 var deleted = await service.DeleteCandidatoAsycnc(id);
                 return deleted ? Results.NoContent() : Results.NotFound();
-            });
+            }).RequireAuthorization();
+
+            endpoints.MapPut("/{id:Guid}", async (Guid id, CandidatoDTO model, ICandidatoService service) =>
+            {
+                var updatedCandidato = await service.UpdateCandidatoAsync(id, model);
+                return updatedCandidato is not null ? Results.Ok(updatedCandidato) : Results.NotFound();
+            }).RequireAuthorization();
+
             endpoints.MapGet("/ListaDosMaisVotados", async (ICandidatoService service) =>
             {
                 return Results.Ok(await service.GetListaDosMaisVotadosDTOAsync());
-            });
+            }).RequireAuthorization();
         }
     }
 }

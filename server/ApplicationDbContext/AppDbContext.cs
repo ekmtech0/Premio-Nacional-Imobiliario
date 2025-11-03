@@ -14,6 +14,7 @@ namespace server.ApplicationDbContext
         public DbSet<Categoria> Categorias => Set<Categoria>();
 
         public DbSet<Adm> Adms => Set<Adm>();
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

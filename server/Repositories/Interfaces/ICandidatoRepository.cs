@@ -11,5 +11,6 @@ namespace server.Repositories.Interfaces
         public Task<List<CandidatoReturnDTO>> GetAllCandiditatosAsync();
         public Task<CandidatoReturnDTO?> GetCandidatoById(Guid id);
         public Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync();
+        public Task<int> GetTotalCandidatos();
     }
 }

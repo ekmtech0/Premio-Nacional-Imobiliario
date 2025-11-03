@@ -114,7 +114,7 @@
             <button @click="toggleVotacao" class="bg-white border px-3 py-2 rounded-md text-sm hover:shadow-sm">
               {{ votacaoAberta ? 'Encerrar votação' : 'Abrir votação' }}
             </button>
-    
+
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@ async function GetListaMaisVotados(){
 }
 
 onMounted(async ()=>{
-  let res = await GetListaMaisVotados()
+  await GetListaMaisVotados()
 })
 
 /* ---------- SVG Pie slices (path strings) ---------- */
@@ -251,11 +251,11 @@ function exportPDF() {
 function toggleVotacao() {
   votacaoAberta.value = !votacaoAberta.value
 }
-function resetVotos() {
-  if (!confirm('Resetar todos os votos para 0?')) return
-  nomeados.value = nomeados.value.map(n => ({ ...n, totalVotos: 0 }))
-  totalInvalidVotes.value = 0
-}
+// function resetVotos() {
+//   if (!confirm('Resetar todos os votos para 0?')) return
+//   nomeados.value = nomeados.value.map(n => ({ ...n, totalVotos: 0 }))
+//   totalInvalidVotes.value = 0
+// }
 </script>
 
 <style scoped>

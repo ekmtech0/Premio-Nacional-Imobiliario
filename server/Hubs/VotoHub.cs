@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using server.ApplicationDbContext;
+using server.Services.Interfaces;
 namespace server.Hubs;
 
 public class VotoHub : Hub
@@ -15,5 +16,10 @@ public class VotoHub : Hub
     {
         var qtdVotos = await _context.Votos.CountAsync();
         await Clients.All.SendAsync("ReceiveVoteQtdVotos", qtdVotos);
+    }
+    public async Task SendMaisVotados(ICandidatoService Cservice)
+    {
+        var ListMaisVotados = await Cservice.GetListaDosMaisVotadosDTOAsync();
+        await Clients.All.SendAsync("ReceiveListaMaisVotados", ListMaisVotados);
     }
 }

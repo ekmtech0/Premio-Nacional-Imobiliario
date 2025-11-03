@@ -21,7 +21,7 @@
                 <input v-model="senha" type="password" placeholder="********"
                   class="p-3 border border-gray-300 text-sm rounded-lg  w-full">
               </div>
-            </div>          
+            </div>
           </form>
 
           <!-- Mensagem de sucesso -->
@@ -40,20 +40,28 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
+import { http } from '@/Request/api';
 const Email = ref('');
 const senha = ref('');
 const router = useRouter()
 
-function logar() {
-    if (Email.value === '123@gmail.com' && senha.value === 'admin123') {
-      console.log('Login efetuado com sucesso!');
-        router.push('/DashboardPNI')
-         
-} else {
-        alert('Credenciais inválidas. Tente novamente.');
-        
-    
-}
+async function logar() {
+  try {
+    const response = await http.post('/adm/login', {
+      email: Email.value,
+      senha: senha.value
+    });
+    const data = response.data;
+    if (data && data.token) {
+      sessionStorage.setItem('accessToken', data.token);
+      router.push('/DashboardPNI');
+    } else {
+      alert('Credenciais inválidas. Tente novamente.');
+    }
+  } catch (error) {
+    console.error('Erro ao realizar login:', error);
+    alert('Ocorreu um erro. Tente novamente mais tarde.');
+  }
 }
 
 </script>
@@ -69,4 +77,3 @@ function logar() {
     scrollbar-width: none;
 }
 </style>
- 

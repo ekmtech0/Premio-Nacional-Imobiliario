@@ -26,17 +26,17 @@ namespace server.Endpoints
             {
                 var categoria = await service.AddCategoriaAsnyc(model);
                 return categoria is not null ? Results.Created($"/candidatos/{categoria.Id}", categoria) : Results.Content("Categoria existente");
-            });
+            }).RequireAuthorization();
             endpoints.MapDelete("/{id}", async (Guid id, ICategoriaService service) =>
             {
                 var deleted = await service.DeleteCategoriaAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();
-            });
+            }).RequireAuthorization();
             endpoints.MapPut("/{id}", async (Guid id, CategoriaCreateDTO model, ICategoriaService service) =>
             {
                 var categoria = await service.UpdateCategoriaAsync(id, model);
                 return categoria is not null ? Results.Ok(categoria) : Results.NotFound();
-            });
+            }).RequireAuthorization();
             endpoints.MapGet("/no-user", async (ICategoriaService service) =>
             {
                 var categorias = await service.GetCategoriaWithNoAsync();

@@ -28,7 +28,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:5173",                       // ambiente local (Vite)
-            "https://premio-nacional-imobiliario.netlify.app" // domínio Netlify
+            "https://premio-nacional-imobiliario.netlify.app", // domínio Netlify
+            "https://ekmtech0.github.io"                     // domínio GitHub Pages
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -48,6 +49,7 @@ builder.Services.AddScoped<IGenerateConfirmationCode, GenerateConfirmationCode>(
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IVotoRepository, VotoRepository>();
 builder.Services.AddScoped<IVotoService, VotoService>();
+builder.Services.AddScoped<IAdmLogin, AdmLogin>();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
@@ -72,6 +74,7 @@ app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();
 app.MapCategoriaEndpoints();
 app.MapVotoEndpoints();
+app.MapAdmEndpoints();
 app.MapHub<VotoHub>("/votohub");
 
 app.Run();

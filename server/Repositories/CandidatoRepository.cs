@@ -16,7 +16,7 @@ namespace server.Repositories
         {
             var categoria = await _context.Categorias
                 .FirstOrDefaultAsync(c => c.Id == model.CategoriaId);
-            
+
             if (categoria == null)
                 return null;
 
@@ -31,19 +31,18 @@ namespace server.Repositories
 
             var user = await _context.Candidatos.AddAsync(candidato);
             return new CandidatoReturnDTO
-           {
+            {
                 Id = user.Entity.Id,
                 Nome = user.Entity.Nome,
                 Description = user.Entity.Description,
                 PhotoUrl = user.Entity.PhotoUrl,
                 Categoria = user.Entity.Categoria.Nome,
                 CategoriaId = user.Entity.Categoria.Id
-           };
+            };
         }
 
-        public async Task<List<CandidatoReturnDTO>> GetAllCandiditatosAsync()
-        {
-            return await _context.Candidatos
+        public async Task<List<CandidatoReturnDTO>> GetAllCandiditatosAsync()=>
+             await _context.Candidatos
                 .Include(c => c.Categoria)
                 .Select(c => new CandidatoReturnDTO
                 {
@@ -56,11 +55,10 @@ namespace server.Repositories
                     Votos = c.Votos.Count
                 })
                 .ToListAsync();
-        }
+        
 
-        public async Task<CandidatoReturnDTO?> GetCandidatoById(Guid id)
-        {
-            return await _context.Candidatos
+        public async Task<CandidatoReturnDTO?> GetCandidatoById(Guid id) =>
+             await _context.Candidatos
                 .Include(c => c.Categoria)
                 .Include(c => c.Votos)
                 .Select(c => new CandidatoReturnDTO
@@ -74,11 +72,10 @@ namespace server.Repositories
                     Votos = c.Votos.Count
                 })
                 .SingleOrDefaultAsync(c => c.Id == id);
-        }
 
-        public async Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync()
-        {
-            return await _context.Candidatos
+
+        public async Task<List<ListaDosMaisVotadosDTO>> GetListaDosMaisVotadosDTOAsync() =>
+             await _context.Candidatos
                 .Include(v => v.Votos)
                 .Select(c => new ListaDosMaisVotadosDTO
                 {
@@ -87,6 +84,8 @@ namespace server.Repositories
                 })
                 .OrderByDescending(c => c.TotalVotos)
                 .ToListAsync();
-        }
+
+        public async Task<int> GetTotalCandidatos() =>
+            await _context.Candidatos.CountAsync();
     }
 }

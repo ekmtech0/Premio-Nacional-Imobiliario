@@ -4,6 +4,7 @@ using server.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace server.Services
 {
@@ -11,7 +12,18 @@ namespace server.Services
     {
         public string GenerateRefreshToken()
         {
-            throw new NotImplementedException();
+            // Gera 64 bytes criptograficamente seguros e retorna em Base64 URL-safe
+            var randomNumber = new byte[64];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+            }
+
+            var refreshToken = Convert.ToBase64String(randomNumber)
+                                    .Replace("+", "-")
+                                    .Replace("/", "_")
+                                    .TrimEnd('=');
+            return refreshToken;
         }
 
         public string GenerateToken(User user)
