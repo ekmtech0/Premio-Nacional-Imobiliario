@@ -7,6 +7,9 @@ import ResultadosAtuais from './ResultadosAtuais.vue'
 import ParceirosPNI from './ParceirosPNI.vue'
 import FooterPNI from './FooterPNI.vue'
 import { useRouter } from 'vue-router'
+import img1 from '@/assets/Img/Angola.jpeg'
+import img2 from '@/assets/Img/Luanda.jpeg'
+import img3 from '@/assets/Img/Marginal.jpeg'
 
 
 const router = useRouter()
@@ -25,9 +28,10 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const imagens = [
   
-  '/Img/Angola.jpeg',
-  '/Img/Luanda.jpeg',
-  '/Img/Marginal.jpeg',
+  img1,
+  img2,
+  img3
+
   
 ]
 
@@ -60,7 +64,7 @@ function irPara(path) {
 <img
   :src="imagens[indexAtual]"
   alt="Slide de Imagens"
-  class="slide-transition absolute inset-0 w-full h-[900px] object-cover lg:"
+  class="slide-transition absolute inset-0 w-full h-[1100px] object-cover lg:"
 />
 
 <!--  INDICADORES (bolinhas) -->
@@ -119,11 +123,11 @@ function irPara(path) {
 
 
   
-<section class="w-full border-y border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-40 ">
+<!-- <section class="">
+  <div class=" ">
      <SobrePremio/>
   </div>
-</section>
+</section> -->
 
 
  

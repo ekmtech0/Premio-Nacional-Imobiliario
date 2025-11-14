@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
   // ✅ Para Vercel ou qualquer domínio (não GitHub Pages):
-  base: '/', // <- MUITO IMPORTANTE!
+  base: '/Premio-Nacional-Imobiliario/', // <- MUITO IMPORTANTE!
   plugins: [
     vue(),
     vueJsx(),

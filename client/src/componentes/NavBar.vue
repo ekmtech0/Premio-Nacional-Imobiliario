@@ -2,7 +2,7 @@
   <header class="bg-azul text-white shadow-xl fixed top-0 left-0 w-full z-50 ">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-4 lg:px-8 h-20 ">
       <!-- LOGO -->
-      <img src="" alt="PNI" class="h-12 w-auto "/>
+      <img :src="pni" alt="PNI" class="h-28 w-auto "/>
 
       <!-- BOTÃO MOBILE -->
       <button
@@ -22,7 +22,7 @@
       <!-- NAV DESKTOP -->
       <nav class="hidden lg:flex space-x-4 text-base font-medium">
         <a href="/" class="hover:text-gray-200 transition-colors">Início</a>
-        <a href="/#sobre" class="hover:text-gray-200 transition-colors">Sobre</a>
+        <a @click="irPara('/SobrePremio')" class="hover:text-gray-200 transition-colors">Sobre</a>
         <a @click="irPara('/categoriaPremio')" class="hover:text-gray-200 transition-colors cursor-pointer">Categorias</a>
         <a href="/#nomeado" class="hover:text-gray-200 transition-colors">Nomeados</a>
         <a @click="irPara('/JuriSelecao')" class="hover:text-gray-200 transition-colors cursor-pointer">Júri</a>
@@ -31,14 +31,14 @@
       </nav>
     </div>
 
-    <!-- ✅ SOMENTE O FUNDO DA PÁGINA FICA ESCURO (NAVBAR SEM DESFOQUE, COMPLETAMENTE VISÍVEL) -->
+    <!--  SOMENTE O FUNDO DA PÁGINA FICA ESCURO (NAVBAR SEM DESFOQUE, COMPLETAMENTE VISÍVEL) -->
     <div
       v-if="menuAberto"
       @click="fecharMenu"
       class="fixed inset-0 top-20 bg-black/40 z-40 lg:hidden"
     ></div>
 
-    <!-- ✅ MENU MOBILE, TOTALMENTE VISÍVEL JUNTO COM A NAVBAR -->
+    <!--  MENU MOBILE, TOTALMENTE VISÍVEL JUNTO COM A NAVBAR -->
     <transition name="slide-fade">
       <nav
         v-if="menuAberto"
@@ -62,6 +62,7 @@
 <script setup>
 import { ref, watch,  onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+import pni from '@/assets/Img/pni.png'
 
 const menuAberto = ref(false)
 const router = useRouter()

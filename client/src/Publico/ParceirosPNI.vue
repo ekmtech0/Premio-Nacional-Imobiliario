@@ -32,18 +32,20 @@
 
 <script setup>
 import { ref } from "vue";
-
+import inh from '@/assets/Img/inh.png'
+import linear2 from '@/assets/Img/Linear2.png'
+import apima from '@/assets/Img/apima.png'
+import fprn from '@/assets/Img/FPRN.jpg'
 // Lista de imagens dos parceiros
 const logos = ref([
-  '/Img/inh.png',
-  '/Img/linear2.png',
-  '/Img/apima.png',
-   '/Img/inh.png',
-  '/Img/linear2.png',
-  '/Img/apima.png',
-
-
-
+  inh,
+  linear2,
+  apima,
+  fprn,
+  inh,
+  linear2,
+  apima,
+  fprn,
 ]);
 
 // Velocidade da animação (quanto maior, mais lento)
