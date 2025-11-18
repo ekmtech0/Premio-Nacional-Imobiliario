@@ -26,6 +26,7 @@ namespace server.Endpoints
                 var candidato = await service.CadastrarCandidatoAsync(model);
                 return Results.Created($"/candidatos/{candidato.Id}", candidato);
             }).RequireAuthorization();
+
             endpoints.MapDelete("/{id:Guid}", async (Guid id, ICandidatoService service) =>
             {
                 var deleted = await service.DeleteCandidatoAsycnc(id);

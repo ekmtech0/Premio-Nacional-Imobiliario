@@ -30,7 +30,6 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Categoria</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Descrição</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Candidatos</th>
-                <th class="px-6 py-3 text-right"></th>
               </tr>
             </thead>
             <tbody>
@@ -69,7 +68,10 @@
               class="p-4 cursor-pointer hover:bg-gray-50"
               @click="abrirModalCandidatos(cat)"
             >
-              <p class="font-semibold text-gray-900">{{ cat.nome }}</p>
+              <div class="flex justify-between">
+                <p class="font-semibold text-gray-900">{{ cat.nome }}</p>
+                <P v-if="cat.isSpecialCetgory">Categoria especial</P>
+              </div>
               <p class="text-gray-600 text-sm mt-1">{{ cat.description }}</p>
               <p class="text-gray-700 text-sm mt-2">{{ cat.candidatos?.length || 0 }} candidatos</p>
 
@@ -110,6 +112,10 @@
             rows="3"
             class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-azul focus:ring-1"
           ></textarea>
+          <div class="flex justify-between">
+            <label for="IsSpecial" >Categoria especial</label>
+            <input type="checkbox" id="IsSpecial" class="w-4" v-model="formCategoria.isSpecial">
+          </div>
         </div>
 
         <div class="flex justify-end space-x-3 mt-6">
@@ -198,7 +204,7 @@ const categoriaEditIndex = ref(null)
 const categoriaSelecionada = ref(null)
 
 // Formulário
-const formCategoria = ref({ nome: '', description: '' })
+const formCategoria = ref({ nome: '', description: '', isSpecial:false })
 
 // Buscar categorias da API
 const carregarCategorias = async () => {
@@ -265,7 +271,7 @@ const eliminarCategoria = async (index) => {
       console.error('Erro ao eliminar categoria:', error)
       statusMensagem.value = 'Ocorreu um erro ao eliminar a categoria.'
       statusTipo.value = 'erro'
-      mostrarStatus.value = true  
+      mostrarStatus.value = true
     }
   }
 }

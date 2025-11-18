@@ -1,9 +1,14 @@
 import axios from "axios";
 
+const baseURL =
+  import.meta.env.MODE === "production"
+    ? "/api"                 // produção
+    : "http://localhost:5092/api"; // desenvolvimento
+
 export const http = axios.create({
-  baseURL: 'https://premio-nacional-imobiliario-jfnm.onrender.com/api', // URL base da API
-  // baseURL: 'http://localhost:5092/api',
+  baseURL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
+  withCredentials: true, // necessário pros cookies HttpOnly
 });

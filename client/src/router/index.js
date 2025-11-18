@@ -21,127 +21,39 @@ import ResultadoADM from '@/ADM/ResultadoADM.vue'
 import UsuarioADM from '@/ADM/UsuarioADM.vue'
 import HeaderADM from '@/ADM/HeaderADM.vue'
 import ProcessarPNI from '@/componentes/ProcessarPNI.vue'
+import AdmBaseLayout from '@/ADM/AdmBaseLayout.vue'
 
 export const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: MainHome,
-  },
-  {
-    path: '/NavBar',
-    name: 'NavBar',
-    component: NavBar,
-  },
-  {
-    path: '/SobrePremio',
-    name: 'SobrePremio',
-    component: SobrePremio,
-  },
-  {
-    path: '/categoriaPremio',
-    name: 'categoriaPremio',
-    component: categoriaPremio,
-  },
-  {
-    path: '/NomeadosPremio',
-    name: 'NomeadosPremio',
-    component: NomeadosPremio,
-  },
-  {
-    path: '/VotacaoPublic',
-    name: 'VotacaoPublic',
-    component: VotacaoPublic,
-  },
-  {
-    path: '/JuriSelecao',
-    name: 'JuriSelecao',
-    component: JuriSelecao,
-  },
-  {
-    path: '/ResultadosAtuais',
-    name: 'ResultadosAtuais',
-    component: ResultadosAtuais,
-  },
+  { path: '/', name: 'home', component: MainHome },
+  { path: '/NavBar', name: 'NavBar', component: NavBar },
+  { path: '/SobrePremio', name: 'SobrePremio', component: SobrePremio },
+  { path: '/categoriaPremio', name: 'categoriaPremio', component: categoriaPremio },
+  { path: '/NomeadosPremio', name: 'NomeadosPremio', component: NomeadosPremio },
+  { path: '/VotacaoPublic', name: 'VotacaoPublic', component: VotacaoPublic },
+  { path: '/JuriSelecao', name: 'JuriSelecao', component: JuriSelecao },
+  { path: '/ResultadosAtuais', name: 'ResultadosAtuais', component: ResultadosAtuais },
+  { path: '/ParceirosPNI', name: 'ParceirosPNI', component: ParceirosPNI },
 
   {
-    path: '/ParceirosPNI',
-    name: 'ParceirosPNI',
-    component: ParceirosPNI,
-  },
-  {
-    path: '/ContactosPNI',
-    name: 'ContactosPNI',
-    component: ContactosPNI,
-  },
-  {
-    path: '/FooterPNI',
-    name: 'FooterPNI',
-    component: FooterPNI,
-  },
-  {
-    path: '/DashboardPNI',
-    name: 'DashboardPNI',
-    component: DashboardPNI,
-  },
-  {
-    path: '/LoginPNI',
-    name: 'LoginPNI',
-    component: LoginPNI,
-  },
-  {
-    path: '/VerficarEmail',
-    name: 'VerficarEmail',
-    component: VerficarEmail,
-
-  },
-  {
-    path: '/SideBar',
-    name: 'SideBar',
-    component: SideBar
-  },
-  {
-    path: '/CategoriasADM',
-    name: 'CategoriasADM',
-    component: CategoriasADM
-  },
-  {
-    path: '/NomeadosADM',
-    name: '/NomeadosADM',
-    component: NomeadosADM
+    name: 'AdmLayout',
+    path: '/adm',
+    component: AdmBaseLayout,
+    children: [
+      { path: 'DashboardPNI', name: 'DashboardPNI', component: DashboardPNI },
+      { path: 'CategoriasADM', name: 'CategoriasADM', component: CategoriasADM },
+      { path: 'NomeadosADM', name: 'NomeadosADM', component: NomeadosADM },
+      { path: 'VotacaoADM', name: 'VotacaoADM', component: VotacaoADM },
+      { path: 'ResultadoADM', name: 'ResultadoADM', component: ResultadoADM },
+      { path: 'UsuarioADM', name: 'UsuarioADM', component: UsuarioADM },
+      { path: 'HeaderADM', name: 'HeaderADM', component: HeaderADM },
+    ],
   },
 
-  {
-    path: '/VotacaoADM',
-    name: 'VotacaoADM',
-    component: VotacaoADM
-  },
-  {
-    path: '/ResultadoADM',
-    name: '/ResultadoADM',
-    component: ResultadoADM
-
-  },
-  {
-    path: '/UsuarioADM',
-    name: '/UsuarioADM',
-    component: UsuarioADM
-  }, 
-  {
-    path: '/HeaderADM',
-    name: '/HeaderADM',
-    component: HeaderADM
-  },
-
-  {
-    path: '/ProcessaPNI',
-    name: '/ProcessarPNI',
-    component: ProcessarPNI
-  }
+  { path: '/ContactosPNI', name: 'ContactosPNI', component: ContactosPNI },
+  { path: '/FooterPNI', name: 'FooterPNI', component: FooterPNI },
+  { path: '/login', name: 'LoginPNI', component: LoginPNI },
+  { path: '/VerficarEmail', name: 'VerficarEmail', component: VerficarEmail },
+  { path: '/SideBar', name: 'SideBar', component: SideBar },
+  { path: '/ProcessaPNI', name: 'ProcessarPNI', component: ProcessarPNI },
 ]
 
-//  Dantas, não exportes o router aqui Devido o Prerender.
-
-
-// ✅ Exporta só o array:
-export default routes

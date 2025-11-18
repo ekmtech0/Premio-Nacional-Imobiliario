@@ -1,9 +1,12 @@
-using System;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using server.ApplicationDbContext;
 using server.DTOs;
 using server.Helpers;
 using server.Models;
 using server.Repositories.Interfaces;
+using System;
+using System.Security.Claims;
 
 namespace server.Endpoints;
 
@@ -11,34 +14,54 @@ public static class AdmEndpoints
 {
     public static void MapAdmEndpoints(this IEndpointRouteBuilder app)
     {
-        var routes = app.MapGroup("adm")
+        var routes = app.MapGroup("api/adm")
             .WithDescription("Endpoint de gerenciamente dos Adms")
             .WithTags("ADMs");
 
-        routes.MapPost("login", async (IAdmLogin admLogin, HttpResponse resp, AdmLoginDTO model) =>
+        routes.MapPost("login", async (IAdmLogin admLogin,AdmLoginDTO model, HttpContext ctx) =>
         {
-            var (token, refreshToken) = await admLogin.LoginAsync(model);
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(refreshToken))
-                return Results.NotFound("Credenciais inválidas");
-
-            var rt = new RefreshToken
+            var adm = await admLogin.LoginAsync(model);
+            if (adm is null)
+                return Results.Unauthorized();
+            var claims = new List<Claim>
             {
-                Token = refreshToken,
-                Expires = DateTime.UtcNow.AddDays(5),
-                CreatedAt = DateTime.UtcNow
-            };
-            await admLogin.SaveRefreshTokenAsync(model.Email, rt);
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.UtcNow.AddDays(5),
-                SameSite = SameSiteMode.None,
-                HttpOnly = true,
-                Secure = true,
+                new (ClaimTypes.NameIdentifier, adm.Id.ToString()),
+                new (ClaimTypes.Name, adm.Nome),
+                new (ClaimTypes.Email, adm.Email)
             };
 
-            resp.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
-            return Results.Ok( new {token});
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            var props = new AuthenticationProperties
+            {
+                IsPersistent = model.RememberMe,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
+            };
+
+            await ctx.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+
+            return Results.Ok(new { message = "Autenticado" });
         });
+
+        routes.MapGet("me", (HttpContext ctx) =>
+        {
+            var claims = ctx.User.Claims.ToList();
+
+            // Exemplos de claims comuns
+            var userId = ctx.User.FindFirst("sub")?.Value; // ou ClaimTypes.NameIdentifier
+            var userName = ctx.User.Identity?.Name;        // geralmente vem do ClaimTypes.Name
+            var email = ctx.User.FindFirst("email")?.Value;
+
+            return Results.Ok(new
+            {
+                Id = userId,
+                Nome = userName,
+                Email = email,
+                TodasClaims = claims.Select(c => new { c.Type, c.Value })
+            });
+        }).RequireAuthorization();
+
         // routes.MapPost("addAdm", async (AppDbContext _context) =>
         // {
         //     await _context.AddAsync(new Adm
@@ -49,18 +72,20 @@ public static class AdmEndpoints
         //         Senha = HashHelper.Hash("linearAdm123")
         //     });
         //     await _context.SaveChangesAsync();
-        // });
-        routes.MapGet("refresh",async (HttpRequest request, IAdmLogin admLogin) =>
-        {
-            // Pega o cookie "MeuCookie" enviado pelo navegador
-            if (request.Cookies.TryGetValue("RefreshToken", out var valor))
-            {
-                var newAccessToken = await admLogin.GetAccessTokenByRefreshTokenAsync(valor);
-                return Results.Ok(new { newAccessToken });
-            }
+       // });
+
+
+        //routes.MapGet("refresh",async (HttpRequest request, IAdmLogin admLogin) =>
+        //{
+        //    // Pega o cookie "MeuCookie" enviado pelo navegador
+        //    if (request.Cookies.TryGetValue("RefreshToken", out var valor))
+        //    {
+        //        var newAccessToken = await admLogin.GetAccessTokenByRefreshTokenAsync(valor);
+        //        return Results.Ok(new { newAccessToken });
+        //    }
             
-            return Results.NotFound("Faça Login");
-        });
+        //    return Results.NotFound("Faça Login");
+        //});
 
     }
 }

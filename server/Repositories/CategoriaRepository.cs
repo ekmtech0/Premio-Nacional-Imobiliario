@@ -20,7 +20,8 @@ namespace server.Repositories
             var categoria = new Categoria
             {
                 Nome = model.Nome,
-                Description = model.Description
+                Description = model.Description,
+                SpecialCategory = model.IsSpecial
             };
            var c = await context.Categorias.AddAsync(categoria);
 
@@ -53,6 +54,7 @@ namespace server.Repositories
                     Id = c.Id,
                     Nome = c.Nome,
                     Description = c.Description,
+                    IsSpecialCetgory = c.SpecialCategory,
                     Candidatos = c.Candidatos.Select(ca => new CandidatoWithCategoriaDTO
                     {
                         Id = ca.Id,
@@ -70,6 +72,7 @@ namespace server.Repositories
                     Id = c.Id,
                     Nome = c.Nome,
                     Description = c.Description,
+                    IsSpecialCetgory = c.SpecialCategory,
                     Candidatos = c.Candidatos.Select(ca => new CandidatoWithCategoriaDTO
                     {
                         Id = ca.Id,
@@ -86,6 +89,7 @@ namespace server.Repositories
                 return null;
             categoria.Nome = model.Nome;
             categoria.Description = model.Description;
+            categoria.SpecialCategory = model.IsSpecial;
             context.Categorias.Update(categoria);
 
             return new CategoriaDTO
@@ -93,6 +97,7 @@ namespace server.Repositories
                 Id = categoria.Id,
                 Nome = categoria.Nome,
                 Description = categoria.Description,
+                
             };
         }
         public async Task<List<CategoriaWithNoUserDTO>> GetCategoriaWithNoUserByIdAsync()

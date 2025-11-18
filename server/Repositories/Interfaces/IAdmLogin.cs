@@ -6,7 +6,7 @@ namespace server.Repositories.Interfaces;
 
 public interface IAdmLogin
 {
-    Task<(string, string)> LoginAsync(AdmLoginDTO model);
+    Task<Adm> LoginAsync(AdmLoginDTO model);
     Task SaveRefreshTokenAsync(string email, RefreshToken refreshToken);
     Task<string?> GetAccessTokenByRefreshTokenAsync(string refreshToken);
 }

@@ -7,6 +7,7 @@ namespace server.DTOs
     {
         public string Nome { get; set; } = null!;
         public string Description { get; set; } = null!;
+        public bool IsSpecial {get;set;} = false;
     }
 }
 

@@ -20,17 +20,13 @@ public class AdmLogin : IAdmLogin
         tokenService = Tokenservice;
     }
 
-    public async Task<(string, string)> LoginAsync(AdmLoginDTO model)
+    public async Task<Adm?> LoginAsync(AdmLoginDTO model)
     {
         var adm = await _context.Adms.SingleOrDefaultAsync(a => a.Email == model.Email);
         if (adm is null || !HashHelper.VerifyHash(model.Senha, adm.Senha))
-            return ("", "");
+            return null;
 
-        //Gerando o Refresh Token 
-        var refreshToken = tokenService.GenerateRefreshToken();
-        var token = tokenService.GenerateToken(adm);
-
-        return (token, refreshToken);
+        return adm;
     }
     public async Task SaveRefreshTokenAsync(string email, RefreshToken refreshToken)
     {

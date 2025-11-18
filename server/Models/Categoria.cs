@@ -16,6 +16,7 @@ namespace server.Models
         [Required, MaxLength(200), MinLength(10)]
         public string Description { get; set; } = null!;
 
+        public bool SpecialCategory { get; set; } = false;
         //[Required]
         ////public int NumeroVencedores { get; set; }
     }

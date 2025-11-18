@@ -15,7 +15,7 @@ using server.Hubs;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerAuth();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,11 +70,14 @@ app.UseGlobalExceptionHandler();
 app.UseCors("AllowFrontend");
 
 
-app.MapGet("/", () => "Hello World!");
 app.MapCandidatoEndpoints();
 app.MapCategoriaEndpoints();
 app.MapVotoEndpoints();
 app.MapAdmEndpoints();
 app.MapHub<VotoHub>("/votohub");
+
+app.UseDefaultFiles();
+app.UseStaticFiles(); 
+app.MapFallbackToFile("index.html");
 
 app.Run();

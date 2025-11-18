@@ -1,41 +1,67 @@
+// main.js
 import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
-import routes from './router'
+import { routes } from './router'
 import './main.css'
+
 import { createHead } from '@vueuse/head'
 import { MotionPlugin } from '@vueuse/motion'
-import { VueReCaptcha } from 'vue-recaptcha-v3';
+import { VueReCaptcha } from 'vue-recaptcha-v3'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-// Criar o gerenciador de metadados (SEO)
+import { http } from '@/Request/api'
+
+// SEO + head manager
 const head = createHead()
-// Registrar plugins e criar a app via ViteSSG
-// NOTA: não usar `app` aqui antes da criação — registre plugins dentro do callback `ctx`.
-// Usa variável de ambiente VITE_RECAPTCHA_SITE_KEY quando disponível.
+
+// Criar a aplicação com ViteSSG
 export const createApp = ViteSSG(
   App,
   {
     routes,
-    base: import.meta.env.BASE_URL || '/Premio-Imobiliario-Nacional/',
+    base: import.meta.env.BASE_URL || '/',
   },
   (ctx) => {
+    // Plugins globais
     ctx.app.use(head)
     ctx.app.use(MotionPlugin)
-    // Registrar plugin de reCAPTCHA v3 apenas se explicitamente configurado.
-    // Isso evita conflitos quando componentes usam o widget v2 (checkbox).
+
+    // Registrar reCAPTCHA v3 se ativo no .env
     if (import.meta.env.VITE_RECAPTCHA_MODE === 'v3') {
       ctx.app.use(VueReCaptcha, {
-        siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcEIfYrAAAAH9ORuP38fdKRkmRP_GZAu9L48hL'
+        siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY
       })
     }
+
+    // 🔥 Guard global para /adm
+    ctx.router.beforeEach(async (to, from, next) => {
+      if (to.path.startsWith('/adm')) {
+        const isLoggedIn = await checkAuth()
+        if (!isLoggedIn) {
+          return next({ name: 'LoginPNI' })
+        }
+      }
+      next()
+    })
   }
 )
 
-// Inicializa o AOS
+// Inicializa animações AOS
 AOS.init({
-  duration: 800, // duração da animação em ms
+  duration: 800,
   easing: 'ease-in-out',
-  once: true, // anima apenas na primeira vez
-  offset: 100, // distância antes de começar a animação
+  once: true,
+  offset: 100,
 })
+
+// Verifica login via cookie HttpOnly
+async function checkAuth() {
+  try {
+    const res = await http.get('adm/me', { withCredentials: true })
+    console.log(res.data)
+    return !!res.data
+  } catch {
+    return false
+  }
+}

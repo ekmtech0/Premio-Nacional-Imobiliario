@@ -24,8 +24,13 @@
             </div>
           </form>
 
+          <div class="flex justify-between mt-2">
+            <label for="lembrar">Lembrar de mim</label>
+            <input type="checkbox" id="lembrar" v-model="lembrarMe" class="w-4">
+          </div>
+
           <!-- Mensagem de sucesso -->
-          <span class="text-sm text-verde pt-4">Login efetuado com Sucesso!</span>
+          <span class="text-sm text-verde pt-4">{{ msg }}</span>
 
           <!-- Botão -->
           <div  class="pt-6" >
@@ -43,18 +48,22 @@ import { useRouter } from 'vue-router'
 import { http } from '@/Request/api';
 const Email = ref('');
 const senha = ref('');
+const lembrarMe = ref(false)
 const router = useRouter()
+const msg = ref('')
+
 
 async function logar() {
   try {
-    const response = await http.post('/adm/login', {
+    const response = await http.post('adm/login', {
       email: Email.value,
-      senha: senha.value
-    });
+      senha: senha.value,
+      rememberMe: lembrarMe.value
+    },{ withCredentials: true });
     const data = response.data;
-    if (data && data.token) {
-      sessionStorage.setItem('accessToken', data.token);
-      router.push('/DashboardPNI');
+    console.log(data)
+    if (data) {
+      router.push('/adm/DashboardPNI');
     } else {
       alert('Credenciais inválidas. Tente novamente.');
     }

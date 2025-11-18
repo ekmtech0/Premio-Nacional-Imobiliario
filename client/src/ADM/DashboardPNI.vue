@@ -93,7 +93,7 @@ const getTotalVotos = async ()=>{
 onMounted(async () => {
   await getTotalVotos()
   connection = new signalR.HubConnectionBuilder()
-    .withUrl('https://premio-nacional-imobiliario-jfnm.onrender.com/votohub', {
+    .withUrl('/votohub', {
       withCredentials: true
     })
     .withAutomaticReconnect()
